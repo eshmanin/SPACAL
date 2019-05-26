@@ -1,0 +1,319 @@
+
+#include <stdio.h>
+TGraph *FR06 = new TGraph();
+TGraph *FR08 = new TGraph();
+TGraph *FR10 = new TGraph();
+TGraph *FR12 = new TGraph();
+TGraph *FR16 = new TGraph();
+TGraph *FR20 = new TGraph();
+int sch=0;
+
+void calib(){
+#include <stdio.h>
+  Float_t a,b,c,d,e,n,resolut,lalka,lalochka,A,B,a1,b1,c1,d1,e1,n1,a2,b2,c2,d2,e2,n2,A1,B1,A2,B2,err,entry,Cal0,Cal1,dep1,dep2,err1,aerr,berr,cerr;
+Float_t sect1,sect2,def1,def2,def,dt,cell2,cell1,cell3,cell5,cell14,tcell,tcell1,deff1,defs1,deff2,defs2,a1s,b1s,b2s,a2s,deft1,deft2;
+char fnam[100], buffer[100],buffer1[100];
+int numberoffiles = 4;
+TGraphErrors *run = new TGraphErrors();
+TGraphErrors *lin = new TGraphErrors();
+TGraph *run1 = new TGraph();
+TGraph *run2 = new TGraph();
+
+int sch=0;
+for (int i=1; i<5; i++) {
+  if (i==1) e=1;  //             CHECK!
+	if (i==2) e=10;
+	if (i==3) e=20;
+	if (i==4) e=40;
+TH1F *DEF = new TH1F ("DEF", "DEF", 1000, 0, e*1.5);
+sprintf(fnam, " TB_10Evn_check_%d_GeV.root",e);
+	sprintf (buffer, " Energy%dGeV", i);
+		sprintf (buffer1, " IIEnergy%dGeV", i);
+	TFile *rFile = new TFile(fnam,"READONLY");
+	TTree *tree0 = (TTree *) rFile->Get("tree");
+	tree0->SetBranchAddress("depositedEnergyTotal",&dt);
+		tree0->SetBranchAddress("depositedEnergyFibres_1st_Section",&dep1);
+	tree0->SetBranchAddress("depositedEnergyFibres_2nd_Section",&dep2);
+			tree0->SetBranchAddress("depositedEnergy_1st_Section",&sect1);
+	tree0->SetBranchAddress("depositedEnergy_2nd_Section",&sect2);
+		tree0->SetBranchAddress("depositedEnergyFibresCross",&deff1);
+	tree0->SetBranchAddress("depositedEnergyFibresCenter",&defs1);
+	tree0->SetBranchAddress("depositedEnergyFibresCorners",&deft1);
+			tree0->SetBranchAddress("depositedEnergy_2nd_Sect_FibresCross",&deff2);
+	tree0->SetBranchAddress("depositedEnergy_2nd _Sect_FibresCenter",&defs2);
+	tree0->SetBranchAddress("depositedEnergy_2nd _Sect_FibresCorners",&deft2);
+			tree0->SetBranchAddress("depositedEnergy_1st_Section",&sect1);
+	tree0->SetBranchAddress("depositedEnergy_2nd_Section",&sect2);
+				tree0->SetBranchAddress("depositedEnergyCell5",&cell5);
+	tree0->SetBranchAddress("depositedEnergyCell14",&cell14);
+	int Nevts=tree0->GetEntries();
+	for (int j=0, N = tree0->GetEntries(); j<N; j++)
+{
+	      tree0->GetEntry(j);
+//	      a1=dt/sect1;
+//	      b1=dt/sect2;
+//	      def1=dep1*a1;
+//	      def2=dep2*a2;
+	//      def=deff1/0.146+deff2/0.022+defs1/0.16+defs2/0.16;; //GAGG+YAG+Plastic
+	      //   def=deff1/0.14+deff2/0.14+defs1/0.16+defs2/0.16 + deft2/0.023 + deft1/0.023; // Cross from YAG
+	           def=deff1/0.142+deff2/0.142+defs1/0.187+defs2/0.187 + deft2/0.028 + deft1/0.028;
+	      cout << " def = " << def << endl;
+	      DEF->Fill(def);
+}
+	cout << "end of file --------------------------------------------------------" << endl;
+DEF->Draw();
+	TF1 *enrfit= new TF1("enrfit","gaus");
+	
+gStyle->SetOptFit();
+DEF->Fit("enrfit");
+	a= enrfit->GetParameter(1);
+	b= enrfit->GetParameter(2);
+	aerr= enrfit->GetParError(1);
+	berr= enrfit->GetParError(2); 
+	c= b/a;
+	//	cerr= (aerr/a+berr/b)*c;
+	cerr = sqrt((aerr/a)*(aerr/a)+((-berr*b)/(a*a))*((-berr*b)/(a*a)));
+	//(aerr/a+(-berr*b)/(a*a))*c);	
+	err = cerr;
+	err1= berr;
+
+
+	//	err = c*(1+c)/sqrt(Nevts);
+	//	err1=b/sqrt(Nevts);
+	lin->SetPoint(sch,e,a/e);
+	lin->SetPointError(sch,0,err1/e);
+	run->SetPoint(sch,e,c);
+	run->SetPointError(sch,0,err);
+	sch++;
+//	cout << " err1 = " << err << endl;
+}
+TCanvas *c5 = new TCanvas(buffer, "GAGG");
+c5->cd(1);
+c5->SetLogx();
+c5->SetLogy();
+c5->SetGrid();
+c5->SetTitle("Prototype");
+run->SetTitle("Prototype");
+run->GetXaxis()->SetRangeUser(0.5,200);
+run->GetXaxis()->SetTitle("Particle Energy, GeV");
+run->GetYaxis()->SetRangeUser(0.001,1);
+run->GetYaxis()->SetTitle("#sigma/E");
+run->SetMarkerStyle(8);
+	run->Draw("AP");
+	TF1 *myfit = new TF1("myfit","sqrt([0]*[0]/x + [1]*[1])");
+		//  c1->cd(2);
+		//  TF1 *myfit = new TF1("myfit","[0]*exp(-x/[1]) + [2]*exp(-x/[3])");
+		myfit->SetParName(0, "A");
+		myfit->SetParName(1, "B");
+gStyle->SetOptFit();
+  		myfit->SetParameter(0, 14);
+    	myfit->FixParameter(1, 0);
+run->Fit("myfit");
+    	TLegend *legend = new TLegend(.55,.45,.85,.55);
+		A = myfit->GetParameter(0);
+		TF1 *myfit1 = new TF1("myfit1","sqrt([0]*[0]/x + [1]*[1])");
+				myfit1->SetParName(0, "A");
+		myfit1->SetParName(1, "B");
+gStyle->SetOptFit();
+  		myfit1->SetParameter(0, A);
+    	myfit1->SetParameter(1, 0.4);
+    	run->Fit("myfit1");
+		B = myfit->GetParameter(1);
+TCanvas *c7 = new TCanvas("c7");
+c7->cd(1);
+c7->SetTitle("Prototype");
+lin->SetTitle("Prototype_E(rec)/E(true)");
+lin->GetXaxis()->SetTitle("Particle Energy, GeV");
+lin->GetYaxis()->SetTitle("E(reconstr., GeV)");
+		lin->Draw("AP");
+		lin->SetMarkerStyle(8);
+
+}
+
+
+void calib1(){
+#include <stdio.h>
+Float_t a,b,c,d,e,n,resolut,lalka,lalochka,A,B,a1,b1,c1,d1,e1,n1,a2,b2,c2,d2,e2,n2,A1,B1,A2,B2,err,entry,Cal0,Cal1,dep1,dep2;
+Float_t sect1,sect2,def1,def2,def,dt,cell2,cell1,cell3,cell5,cell14,tcell,tcell1,deff1,defs1,deff2,defs2,a1s,b1s,b2s,a2s,deft1,deft2;
+Float_t cl1,cl2,cl3,cl4,cl5,cl6,cl7,cl8,cl9,cl10,cl11,cl12,cl13,cl14,cl15,cl16,cl17,cl18,cl19,t1,t2,t1s,t2s;
+ Float_t a11,a22,b11,b22,t11,t22;
+char fnam[100], buffer[100],buffer1[100];
+int numberoffiles = 4;
+TGraphErrors *run = new TGraphErrors();
+TGraph *run1 = new TGraph();
+TGraph *run2 = new TGraph();
+
+int sch=0;
+for (int i=1; i<4; i++) {
+		if (i==1) e=1;
+	if (i==2) e=10;
+	if (i==3) e=30;
+	if (i==4) e=100;
+	if (i==5) e=150;
+TH1F *DEF = new TH1F ("DEF", "DEF", 1000, 0, e);
+sprintf(fnam, "BasicCalib_%d_GeV.root",e);
+	sprintf (buffer, " Energy%dGeV", i);
+		sprintf (buffer1, " IIEnergy%dGeV", i);
+	TFile *rFile = new TFile(fnam,"READONLY");
+	TTree *tree0 = (TTree *) rFile->Get("tree");
+	tree0->SetBranchAddress("depositedEnergyTotal",&dt);
+		tree0->SetBranchAddress("depositedEnergyFibres_1st_Section",&dep1);
+	tree0->SetBranchAddress("depositedEnergyFibres_2nd_Section",&dep2);
+			tree0->SetBranchAddress("depositedEnergy_1st_Section",&sect1);
+	tree0->SetBranchAddress("depositedEnergy_2nd_Section",&sect2);
+		tree0->SetBranchAddress("depositedEnergyFibresCross",&deff1);
+	tree0->SetBranchAddress("depositedEnergyFibresCenter",&defs1);
+	tree0->SetBranchAddress("depositedEnergyFibresCorners",&deft1);
+			tree0->SetBranchAddress("depositedEnergy_2nd_Sect_FibresCross",&deff2);
+	tree0->SetBranchAddress("depositedEnergy_2nd _Sect_FibresCenter",&defs2);
+	tree0->SetBranchAddress("depositedEnergy_2nd _Sect_FibresCorners",&deft2);
+			tree0->SetBranchAddress("depositedEnergy_1st_Section",&sect1);
+	tree0->SetBranchAddress("depositedEnergy_2nd_Section",&sect2);
+				tree0->SetBranchAddress("depositedEnergyCell5",&cl5);
+	tree0->SetBranchAddress("depositedEnergyCell14",&cl14);
+					tree0->SetBranchAddress("depositedEnergyCell1",&cl1);
+	tree0->SetBranchAddress("depositedEnergyCell2",&cl2);
+					tree0->SetBranchAddress("depositedEnergyCell3",&cl3);
+	tree0->SetBranchAddress("depositedEnergyCell4",&cl4);
+					tree0->SetBranchAddress("depositedEnergyCell6",&cl6);
+	tree0->SetBranchAddress("depositedEnergyCell7",&cl7);
+					tree0->SetBranchAddress("depositedEnergyCell8",&cl8);
+	tree0->SetBranchAddress("depositedEnergyCell9",&cl9);
+					tree0->SetBranchAddress("depositedEnergyCell10",&cl10);
+	tree0->SetBranchAddress("depositedEnergyCell11",&cl11);
+					tree0->SetBranchAddress("depositedEnergyCell12",&cl12);
+	tree0->SetBranchAddress("depositedEnergyCell13",&cl13);
+					tree0->SetBranchAddress("depositedEnergyCell15",&cl15);
+	tree0->SetBranchAddress("depositedEnergyCell16",&cl16);
+					tree0->SetBranchAddress("depositedEnergyCell17",&cl17);
+	tree0->SetBranchAddress("depositedEnergyCell18",&cl18);
+			tree0->SetBranchAddress("depositedEnergy_1st_Section",&sect1);
+	tree0->SetBranchAddress("depositedEnergy_2nd_Section",&sect2);
+				tree0->SetBranchAddress("depositedEnergyCell5",&cell5);
+	tree0->SetBranchAddress("depositedEnergyCell14",&cell14);
+	int Nevts=tree0->GetEntries();
+	a1 = 0;
+	b1 = 0;
+	a2 = 0;
+	b2 = 0;
+	for (int j=0, N = tree0->GetEntries(); j<N; j++)
+{
+	      tree0->GetEntry(j);
+//	      a1=dt/cell5;
+//	      b1=dt/(sect1-cell5);
+//	      a2=dt/cell14;
+//	      b2=dt/(sect2-cell14);
+//	      def1=defs1*a1+deff1*b1;
+//	      def2=defs2*a2+deff2*b2;
+//	      def=def1+def2;
+
+
+
+
+a11 = defs1/cell5;
+b11 = deff1/(cl2+cl4+cl6+cl8);
+a22 = defs2/cell14;
+b22 = deff2/(cl11+cl13+cl15+cl17);
+t11 = deft1/(cl1+cl3+cl7+cl9);
+t22 = deft2/(cl10+cl12+cl18+cl16);
+
+// cout << " a1 = " << b22 << endl;
+	      /* if (deft1 == 0) t11=0; */
+	      /* if (deft2 == 0) t22=0; */
+      	      /* if (defs1 == 0) a11=0; */
+	      /* if (defs2 == 0) a22=0; */
+	      /* 	      if (deff1 == 0) b11=0; */
+	      /* if (deff2 == 0) b22=0; */
+
+	      if (cl1 == 0 && cl3 == 0 && cl7 == 0 && cl9 == 0) t11=0;
+	      if (cl12 == 0 && cl10 == 0 && cl18 == 0 && cl16 == 0 ) t22=0;
+      	      if (cell5 == 0) a11=0;
+	      if (cell14 == 0) a22=0;
+	      	      if (cl2 == 0 && cl4 == 0 && cl6 == 0 && cl8 == 0) b11=0;
+	      if (cl11 == 0 && cl13 == 0 && cl15 == 0 && cl17 == 0) b22=0;
+
+
+a1 += a11;
+b1 += a22;
+a2 += b11;
+b2 += b22;
+t1 += t11;
+t2 += t22;
+
+
+ //  cout << " a11 = " << a11 << " cell = " << cell5  << endl;
+	      //DEF->Fill(def);
+
+}
+int Nev = tree0->GetEntries(); 
+//cout << " Nevt   = " << Nev <<endl;
+a1s=a1/Nev;
+b1s=b1/Nev;
+a2s=a2/Nev;
+b2s=b2/Nev;
+t1s=t1/Nev;
+t2s=t2/Nev;
+
+
+ cout << " a1 = " << a1s << " a2 = " << a2s << " b1s = " << b1s << " b2s = " << b2s << " t1 = " << t1s << " t2 = " << t2s << endl;
+for (int jj=0, N1 = tree0->GetEntries(); jj<N1; ++jj)
+{
+	     tree0->GetEntry(jj);
+
+def = deff1/b1s+deff2/b2s+defs1/a1s+defs2/a2s;
+//cout << "def = " << def<< endl;
+
+DEF->Fill(def);
+//cout << " Deff1 = " << deff1*b1s << "deff2 = " << deff2*b2 << "defs1 = " << defs1*a1 << "defs2 = " << defs2*a2 << endl;
+}
+ cout << " end of file -----------  ----------  -------------------  --------------" << endl;
+
+DEF->Draw();
+	a= DEF->GetMean();
+	b= DEF->GetRMS();
+	c= b/a;
+	err = c*(1+c)/sqrt(Nevts);
+	run->SetPoint(sch,e,c);
+	run->SetPointError(sch,0,err);
+	sch++;
+	deff1 = 0;
+	deff2 = 0;
+	defs1 =0 ;
+	defs2 = 0;
+//	cout << " err1 = " << err << endl;
+}
+TCanvas *c5 = new TCanvas(buffer, "GAGG");
+c5->cd(1);
+c5->SetLogx();
+c5->SetLogy();
+c5->SetGrid();
+c5->SetTitle("Prototype");
+run->SetTitle("Prototype");
+run->GetXaxis()->SetRangeUser(0.5,200);
+run->GetXaxis()->SetTitle("Particle Energy, GeV");
+run->GetYaxis()->SetRangeUser(0.001,1);
+run->GetYaxis()->SetTitle("#sigma/E");
+run->SetMarkerStyle(8);
+	run->Draw("AP");
+	TF1 *myfit = new TF1("myfit","sqrt([0]*[0]/x + [1]*[1])");
+		//  c1->cd(2);
+		//  TF1 *myfit = new TF1("myfit","[0]*exp(-x/[1]) + [2]*exp(-x/[3])");
+		myfit->SetParName(0, "A");
+		myfit->SetParName(1, "B");
+gStyle->SetOptFit();
+  		myfit->SetParameter(0, 14);
+    	myfit->FixParameter(1, 0);
+run->Fit("myfit");
+    	TLegend *legend = new TLegend(.55,.45,.85,.55);
+		A = myfit->GetParameter(0);
+		TF1 *myfit1 = new TF1("myfit1","sqrt([0]*[0]/x + [1]*[1])");
+				myfit1->SetParName(0, "A");
+		myfit1->SetParName(1, "B");
+gStyle->SetOptFit();
+  		myfit1->SetParameter(0, A);
+    	myfit1->SetParameter(1, 0.4);
+    	run->Fit("myfit1");
+		B = myfit->GetParameter(1);
+}
+
+
