@@ -1,4 +1,4 @@
-# SPACAL
+# SPACAL Simulation code
 
 
 
