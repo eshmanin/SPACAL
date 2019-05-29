@@ -31,9 +31,9 @@ In a output *.root files branches with deposited energy in fibers called:
                                                                     depositedEnergyFibresCenter
                                                                     depositedEnergyFibresCorners
 For new prototypes this branches containt:
-                                            depositedEnergyFibresCross = Energy in Bottom side
-                                            depositedEnergyFibresCenter = Energy in Up side
-                                            depositedEnergyFibresCorners = Energy in Accessory side
+                                            depositedEnergyFibresCross = Energy in Bottom side      (Yellow in visualization)
+                                            depositedEnergyFibresCenter = Energy in Up side         (Red one)
+                                            depositedEnergyFibresCorners = Energy in Accessory side (Green one)
                                             
                             
                                                                     
