@@ -24,4 +24,17 @@ To produce multiple events and save the output in a root file, execute
 ./build/FibresCalo template.cfg outFileName
 In this case, the beam parameters are read from file gps.mac
 
-The file template.cfg contains a number of parameters to configure the calorimeter layout. Most of them should be self-explanatory.
+The file template.cfg contains a number of parameters to configure the calorimeter layout. Most of them should be self-explanatory. You can choose one of three prototypes and change it's configuration.
+
+In a output *.root files branches with deposited energy in fibers called:
+                                                                    depositedEnergyFibresCross
+                                                                    depositedEnergyFibresCenter
+                                                                    depositedEnergyFibresCorners
+For new prototypes this branches containt:
+                                            depositedEnergyFibresCross = Energy in Bottom side
+                                            depositedEnergyFibresCenter = Energy in Up side
+                                            depositedEnergyFibresCorners = Energy in Accessory side
+                                            
+                            
+                                                                    
+                                                             
