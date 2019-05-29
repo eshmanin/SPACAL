@@ -120,6 +120,8 @@ config.readInto (Second_fibre_material, "Second_fibre_material") ;
 
 config.readInto (fibre_cladRIndex, "fibre_cladRIndex") ;
   config.readInto (fibre_isSquare, "fibre_isSquare") ;
+  config.readInto (fibre2_isSquare, "fibre2_isSquare") ;
+  config.readInto (hole_isSquare, "hole_isSquare") ;
   config.readInto (fibre_radius, "fibre_radius") ;
   config.readInto (fibre_length, "fibre_length") ;
 config.readInto (Second_fibre_radius, "Second_fibre_radius") ;
@@ -325,7 +327,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct ()
 
 
 
-    
+
 
   // The Pre-Construction
   //----------- ---------------
@@ -334,14 +336,14 @@ G4VPhysicalVolume* DetectorConstruction::Construct ()
         G4VSolid * PVCS = new G4Box ("PVCS", 0.5*module_xy, 0.5*module_yx, 0.5*PVC_depth);
         G4LogicalVolume * PVCLV = new G4LogicalVolume (PVCS,PVCMaterial, "PVCLV");
     G4VSolid * TubeS = new G4Tubs ("TubeS", 0., PMT_radius, 0.5*PMT_length, 0.*deg, 360.*deg);
-    
+
     G4VSolid * WiresS = new G4Tubs ("WiresS", 0., Wires_radius, Wires_dist, 0.*deg, 360.*deg);
-    
+
     G4LogicalVolume * PMTLV = new G4LogicalVolume (TubeS,PMTMaterial, "PMTLV");
     G4LogicalVolume * WiresLV = new G4LogicalVolume (WiresS, WiresMaterial, "WiresLV");
 
     if (precon == 1){
-        
+
         new G4PVPlacement (0, G4ThreeVector (0.,0.,-0.5*(PLEX_dist + PLEX_depth)), PLEXLV, "PLEXPV", worldLV, false, 0, checkOverlaps);
 
     new G4PVPlacement (0, G4ThreeVector (0.,0.,-0.5*(PVC_dist+PVC_depth)),PVCLV,"PVCPV", worldLV, false, 0, checkOverlaps);
@@ -389,25 +391,80 @@ G4VPhysicalVolume* DetectorConstruction::Construct ()
  // The holes
   // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
   G4VSolid * holeS;
-  if( !fibre_isSquare ) holeS = new G4Tubs ("holeS", fibre_radius, fibre_radius+hole_radius, 0.5*fibre_length, 0.*deg, 360.*deg) ;
+  if( !hole_isSquare ) holeS = new G4Tubs ("holeS", fibre_radius, fibre_radius+hole_radius, 0.5*fibre_length, 0.*deg, 360.*deg) ;
   else
   {
+    if (!fibre_isSquare){
+      G4VSolid * temp1 = new G4Box ("temp1", fibre_radius+hole_radius, fibre_radius+hole_radius, 0.5*fibre_length) ;
+    G4VSolid * temp2 = new G4Tubs ("temp2", 0, fibre_radius, 1.6*fibre_length, 0.*deg, 360.*deg) ;
+    holeS = new G4SubtractionSolid("holeS",temp1,temp2,0,G4ThreeVector(0.,0.,0.));
+
+  }
+  else {
     G4VSolid * temp1 = new G4Box ("temp1", fibre_radius+hole_radius, fibre_radius+hole_radius, 0.5*fibre_length) ;
     G4VSolid * temp2 = new G4Box ("temp2", fibre_radius, fibre_radius, 1.6*fibre_length) ;
     holeS = new G4SubtractionSolid("holeS",temp1,temp2,0,G4ThreeVector(0.,0.,0.));
+}
   }
   G4LogicalVolume * holeLV = new G4LogicalVolume (holeS, WoMaterial, "holeLV") ;
-    
-    
+
+
     G4VSolid * hole2S;
-    if( !fibre_isSquare ) hole2S = new G4Tubs ("hole2S", Second_fibre_radius, Second_fibre_radius+hole_radius, 0.5*Second_fibre_length, 0.*deg, 360.*deg) ;
+    if( !hole_isSquare ) hole2S = new G4Tubs ("hole2S", Second_fibre_radius, Second_fibre_radius+hole_radius, 0.5*Second_fibre_length, 0.*deg, 360.*deg) ;
     else
     {
+      if (!fibre_isSquare){
+        G4VSolid * temp12 = new G4Box ("temp12", Second_fibre_radius+hole_radius, Second_fibre_radius+hole_radius, 0.5*Second_fibre_length) ;
+        G4VSolid * temp22 = new G4Tubs ("temp22", 0, Second_fibre_radius, 1.6*Second_fibre_length, 0.*deg, 360.*deg) ;
+        hole2S = new G4SubtractionSolid("hole2S",temp12,temp22,0,G4ThreeVector(0.,0.,0.));
+      }
+      else
+      {
         G4VSolid * temp12 = new G4Box ("temp12", Second_fibre_radius+hole_radius, Second_fibre_radius+hole_radius, 0.5*Second_fibre_length) ;
         G4VSolid * temp22 = new G4Box ("temp22", Second_fibre_radius, Second_fibre_radius, 1.6*Second_fibre_length) ;
         hole2S = new G4SubtractionSolid("hole2S",temp12,temp22,0,G4ThreeVector(0.,0.,0.));
+      }
     }
     G4LogicalVolume * hole2LV = new G4LogicalVolume (hole2S, WoMaterial, "hole2LV") ;
+
+
+    G4VSolid * hole13S;
+    if( !hole_isSquare ) hole13S = new G4Tubs ("hole13S", Second_fibre_radius, Second_fibre_radius+hole_radius, 0.5*Second_fibre_length, 0.*deg, 360.*deg) ;
+    else
+    {
+      if (!fibre2_isSquare){
+        G4VSolid * temp13 = new G4Box ("temp13", fibre_radius+hole_radius, fibre_radius+hole_radius, 0.5*fibre_length) ;
+        G4VSolid * temp23 = new G4Tubs ("temp23", 0, fibre_radius, 1.6*fibre_length, 0.*deg, 360.*deg) ;
+        hole13S = new G4SubtractionSolid("hole13S",temp13,temp23,0,G4ThreeVector(0.,0.,0.));
+      }
+      else
+      {
+        G4VSolid * temp13 = new G4Box ("temp13", fibre_radius+hole_radius, fibre_radius+hole_radius, 0.5*fibre_length) ;
+        G4VSolid * temp23 = new G4Box ("temp23", fibre_radius, fibre_radius, 1.6*fibre_length) ;
+        hole13S = new G4SubtractionSolid("hole13S",temp13,temp23,0,G4ThreeVector(0.,0.,0.));
+      }
+    }
+    G4LogicalVolume * hole13LV = new G4LogicalVolume (hole13S, WoMaterial, "hole13LV") ;
+
+
+    G4VSolid * hole23S;
+    if( !hole_isSquare ) hole23S = new G4Tubs ("hole23S", Second_fibre_radius, Second_fibre_radius+hole_radius, 0.5*Second_fibre_length, 0.*deg, 360.*deg) ;
+    else
+    {
+      if (!fibre2_isSquare){
+        G4VSolid * temp22 = new G4Box ("temp22", Second_fibre_radius+hole_radius, Second_fibre_radius+hole_radius, 0.5*Second_fibre_length) ;
+        G4VSolid * temp23 = new G4Tubs ("temp23", 0, Second_fibre_radius, 1.6*Second_fibre_length, 0.*deg, 360.*deg) ;
+        hole23S = new G4SubtractionSolid("hole23S",temp22,temp23,0,G4ThreeVector(0.,0.,0.));
+      }
+      else
+      {
+        G4VSolid * temp22 = new G4Box ("temp22", Second_fibre_radius+hole_radius, Second_fibre_radius+hole_radius, 0.5*Second_fibre_length) ;
+        G4VSolid * temp23 = new G4Box ("temp23", Second_fibre_radius, Second_fibre_radius, 1.6*Second_fibre_length) ;
+        hole23S = new G4SubtractionSolid("hole23S",temp22,temp23,0,G4ThreeVector(0.,0.,0.));
+      }
+    }
+    G4LogicalVolume * hole23LV = new G4LogicalVolume (hole23S, WoMaterial, "hole23LV") ;
+
 
 
   //HoleParameterisation* holeParam = new HoleParameterisation(module_xy,fibre_radius,hole_radius,fibre_distance,fibre_length,WoMaterial);
@@ -433,7 +490,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct ()
    G4LogicalVolume * fibre12SLV = new G4LogicalVolume (fibre12S, ClSSMaterial, "fibre12SLV") ;
 
    G4VSolid * fibre13S;
-   if( !fibre_isSquare ) fibre13S = new G4Tubs ("fibre13S", 0., fibre_radius, 0.5*fibre_length, 0.*deg, 360.*deg) ;
+   if( !fibre2_isSquare ) fibre13S = new G4Tubs ("fibre13S", 0., fibre_radius, 0.5*fibre_length, 0.*deg, 360.*deg) ;
     else                  fibre13S = new G4Box ("fibre13S", fibre_radius, fibre_radius, 0.5*fibre_length) ;
    G4LogicalVolume * fibre13SLV = new G4LogicalVolume (fibre13S, ClSSSMaterial , "fibre13SLV") ;
 
@@ -456,7 +513,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct ()
 
 
    G4VSolid * fibre23S;
-   if( !fibre_isSquare ) fibre23S = new G4Tubs ("fibre23S", 0., Second_fibre_radius, 0.5*Second_fibre_length, 0.*deg, 360.*deg) ;
+   if( !fibre2_isSquare ) fibre23S = new G4Tubs ("fibre23S", 0., Second_fibre_radius, 0.5*Second_fibre_length, 0.*deg, 360.*deg) ;
     else                  fibre23S = new G4Box ("fibre23S", Second_fibre_radius, Second_fibre_radius, 0.5*Second_fibre_length) ;
    G4LogicalVolume * fibre23SLV = new G4LogicalVolume (fibre23S, Cl43SSMaterial , "fibre23SLV") ;
 
@@ -771,7 +828,155 @@ else if (protoType == 2) {
 
 }
 
+else if (protoType == 3) {
 
+  // fibres matrix filling
+  // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
+  int index;
+  int indexion;
+  int index1;
+  // loop on x direction
+  int countX = 0 ; // for the staggering
+
+  for (float x = -0.5*module_xy+startX; countX <nFibresAlongX; x += fibreDistanceAlongX)
+  {
+    // loop on y direction
+    int countY = 0 ; // for the staggering
+    for (float y = - 0.5 * module_yx + startY; countY < nFibresAlongY; y += fibreDistanceAlongY)
+    {
+      float x_c = x;
+      float y_c = y;
+      //____________________________________________
+      //   float x_cs = -0.5 * module_xy;
+      //    float y_cs = -0.5 * module_xy;
+      //________________________________________________________________
+      // staggering
+      if( (fibre_scheme%2) == 0 )
+        y_c += 0.5*fibreDistanceAlongY*(countX%2) ;
+
+      int index = countX * nFibresAlongY + countY ;
+
+      CreateTree::Instance() -> fibresPosition -> Fill(index,x_c,y_c);
+
+
+      std::string name;
+
+
+      // **************  ***************
+      // # Above
+     if (x >= -2*fibres_x1 && x<= 1*fibres_x1 && y >= 0.5*fibres_y1 && y <= 1.5*fibres_y1)
+	{
+      name = Form("holePV %d",index);
+      new G4PVPlacement (0,G4ThreeVector(x_c,y_c,0.), holeLV, name, absorber1LV, false, 0, checkOverlaps) ;
+
+      name = Form("fibre12SPV %d",index);
+      new G4PVPlacement (0,G4ThreeVector(x_c,y_c,0.), fibre12SLV, name, absorber1LV, false, 0, checkOverlaps) ;
+	}
+     // Below
+     else if (x >= -2*fibres_x1 && x<= 1*fibres_x1 && y >= -1.5*fibres_y1 && y <= 0.5*fibres_y1)
+{
+      name = Form("holePV %d",index);
+      new G4PVPlacement (0,G4ThreeVector(x_c,y_c,0.), holeLV, name, absorber1LV, false, 0, checkOverlaps) ;
+
+      name = Form("fibre1SPV %d",index);
+      new G4PVPlacement (0,G4ThreeVector(x_c,y_c,0.), fibre1SLV, name, absorber1LV, false, 0, checkOverlaps) ;
+ }
+
+ else {
+   name = Form("hole13PV %d",index);
+      new G4PVPlacement (0,G4ThreeVector(x_c,y_c,0.), hole13LV, name, absorber1LV, false, 0, checkOverlaps) ;
+
+      name = Form("fibre13SPV %d",index);
+      new G4PVPlacement (0,G4ThreeVector(x_c,y_c,0.), fibre13SLV, name, absorber1LV, false, 0, checkOverlaps) ;
+
+ }
+
+
+
+           indexion = index;
+	   index1 = index+1;
+     CreateTree::Instance() -> fibresPosition_1st_Section -> Fill(indexion,x_c,y_c);
+      ++countY ;
+    } // loop on y direction
+
+    ++countX ;
+  } // loop on x direction
+
+
+
+
+// Second Section _______
+
+  //***********************8**    ******************   8******************
+  // loop on x direction
+  int countX3 = 0 ; // for the staggering
+   int indexion4;
+ int indexion3;
+  for (float x = -0.5*Second_module_xy+Second_startX; countX3 < Second_nFibresAlongX; x += Second_fibreDistanceAlongX)
+  {
+    // loop on y direction
+    int countY3 = 0 ; // for the staggering
+    for (float y = - 0.5 * Second_module_yx + Second_startY; countY3 < Second_nFibresAlongY; y += Second_fibreDistanceAlongY)
+    {
+      float x_c = x;
+      float y_c = y;
+      //____________________________________________
+      //   float x_cs = -0.5 * module_xy;
+      //    float y_cs = -0.5 * module_xy;
+      //________________________________________________________________
+      // staggering
+      if( (Second_fibre_scheme%2) == 0 )
+        y_c += 0.5*Second_fibreDistanceAlongY*(countX3%2) ;
+
+      int index = index1 + countX3 * Second_nFibresAlongY + countY3 ;
+      int index2 = countX3 * Second_nFibresAlongY + countY3;
+      CreateTree::Instance() -> fibresPosition -> Fill(index,x_c,y_c);
+      CreateTree::Instance() -> fibresPosition_2nd_Section -> Fill(index2,x_c,y_c);
+
+      std::string name;
+
+
+      // **************  ***************
+      if (x >= -2*Second_fibres_x1 && x<= 1*Second_fibres_x1 && y >= 0.5*Second_fibres_y1 && y <= 1.5*Second_fibres_y1)
+{      name = Form("hole2PV %d",index);
+      new G4PVPlacement (0,G4ThreeVector(x_c,y_c,0.), hole2LV, name, absorber2LV, false, 0, checkOverlaps) ;
+
+      name = Form("fibre22SPV %d",index);
+      new G4PVPlacement (0,G4ThreeVector(x_c,y_c,0.), fibre22SLV, name, absorber2LV, false, 0, checkOverlaps) ;
+
+
+      // ************ *********************
+ }
+
+    // #Below, 2nd section
+     else if (x >= -2*Second_fibres_x1 && x<= 1*Second_fibres_x1 && y >= -1.5*Second_fibres_y1 && y <= 0.5*Second_fibres_y1)
+{
+      name = Form("hole2PV %d",index);
+      new G4PVPlacement (0,G4ThreeVector(x_c,y_c,0.), hole2LV, name, absorber2LV, false, 0, checkOverlaps) ;
+
+      name = Form("fibre2SPV %d",index);
+      new G4PVPlacement (0,G4ThreeVector(x_c,y_c,0.), fibre2SLV, name, absorber2LV, false, 0, checkOverlaps) ;
+ }
+
+ else
+{
+ name = Form("hole23PV %d",index);
+ new G4PVPlacement (0,G4ThreeVector(x_c,y_c,0.), hole23LV, name, absorber2LV, false, 0, checkOverlaps) ;
+
+ name = Form("fibre23SPV %d",index);
+ new G4PVPlacement (0,G4ThreeVector(x_c,y_c,0.), fibre23SLV, name, absorber2LV, false, 0, checkOverlaps) ;
+}
+
+          indexion4 = index+1;
+	   indexion3 = index2+1;
+      ++countY3 ;
+    } // loop on y direction
+
+
+    ++countX3 ;
+  } // loop on x direction
+
+}
 
 
   //**********    ***************  ************ ************ ****************
@@ -874,11 +1079,21 @@ else if (protoType == 2) {
   VisAttHole->SetVisibility(true);
   VisAttHole->SetForceWireframe(false);
   holeLV->SetVisAttributes(VisAttHole);
-    
+
     G4VisAttributes* VisAttHole2 = new G4VisAttributes(air);
     VisAttHole2->SetVisibility(true);
     VisAttHole2->SetForceWireframe(false);
     hole2LV->SetVisAttributes(VisAttHole2);
+
+    G4VisAttributes* VisAttHole13 = new G4VisAttributes(magenta);
+    VisAttHole13->SetVisibility(true);
+    VisAttHole13->SetForceWireframe(false);
+    hole13LV->SetVisAttributes(VisAttHole13);
+
+    G4VisAttributes* VisAttHole23 = new G4VisAttributes(magenta);
+    VisAttHole23->SetVisibility(true);
+    VisAttHole23->SetForceWireframe(false);
+    hole23LV->SetVisAttributes(VisAttHole23);
 
   G4VisAttributes* VisAttfibre1S = new G4VisAttributes (yellow) ;
   VisAttfibre1S->SetVisibility (true) ;
