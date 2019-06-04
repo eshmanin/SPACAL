@@ -6,7 +6,7 @@ Instructions for installation on a personal PC
 
 To donwnload and compile the package (assuming you have a local working release of Geant4 and CLHEP installed), execute the following commands:
 
-git clone https://github.com/eshmanin/SPACAL.git.git
+git clone https://github.com/eshmanin/SPACAL.git
 cd SPACAL/build
 cmake ../
 make -j
@@ -24,4 +24,17 @@ To produce multiple events and save the output in a root file, execute
 ./build/FibresCalo template.cfg outFileName
 In this case, the beam parameters are read from file gps.mac
 
-The file template.cfg contains a number of parameters to configure the calorimeter layout. Most of them should be self-explanatory.
+The file template.cfg contains a number of parameters to configure the calorimeter layout. Most of them should be self-explanatory. You can choose one of three prototypes and change it's configuration.
+
+In a output *.root files branches with deposited energy in fibers called:
+                                                                    depositedEnergyFibresCross
+                                                                    depositedEnergyFibresCenter
+                                                                    depositedEnergyFibresCorners
+For new prototypes this branches containt:
+                                            depositedEnergyFibresCross = Energy in Bottom side      (Yellow in visualization)
+                                            depositedEnergyFibresCenter = Energy in Up side         (Red one)
+                                            depositedEnergyFibresCorners = Energy in Accessory side (Green one)
+                                            
+                            
+                                                                    
+                                                             
