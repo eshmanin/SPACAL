@@ -102,6 +102,12 @@ CreateTree::CreateTree (TString name,
   this->GetTree ()->Branch ("depositedEnergyCell16",     &this->depositedEnergyCell16,          "depositedEnergyCell16/F") ;
   this->GetTree ()->Branch ("depositedEnergyCell17",     &this->depositedEnergyCell17,          "depositedEnergyCell17/F") ;
   this->GetTree ()->Branch ("depositedEnergyCell18",     &this->depositedEnergyCell18,          "depositedEnergyCell18/F") ;
+  this->GetTree ()->Branch ("depositedEnergyCell19",     &this->depositedEnergyCell19,          "depositedEnergyCell19/F") ;
+  this->GetTree ()->Branch ("depositedEnergyCell20",     &this->depositedEnergyCell20,          "depositedEnergyCell20/F") ;
+  this->GetTree ()->Branch ("depositedEnergyCell21",     &this->depositedEnergyCell21,          "depositedEnergyCell21/F") ;
+  this->GetTree ()->Branch ("depositedEnergyCell22",     &this->depositedEnergyCell22,          "depositedEnergyCell22/F") ;
+  this->GetTree ()->Branch ("depositedEnergyCell23",     &this->depositedEnergyCell23,          "depositedEnergyCell23/F") ;
+  this->GetTree ()->Branch ("depositedEnergyCell24",     &this->depositedEnergyCell24,          "depositedEnergyCell24/F") ;
 //this->GetTree ()->Branch ("depositedEnergyAbove",     &this->depositedEnergyAbove,          "depositedEnergyAbove/F") ;
 //this->GetTree ()->Branch ("depositedEnergyBelow",     &this->depositedEnergyBelow,          "depositedEnergyBelow/F") ;
 this->GetTree ()->Branch ("depositedEnergyAbove_1st_Sect",     &this->depositedEnergyAbove_1st_Sect,          "depositedEnergyAbove_1st_Sect/F") ;
@@ -400,6 +406,12 @@ void CreateTree::Clear ()
  depositedEnergyCell16 = 0. ;
  depositedEnergyCell17 = 0. ;
  depositedEnergyCell18 = 0. ;
+ depositedEnergyCell19 = 0. ;
+ depositedEnergyCell20 = 0. ;
+ depositedEnergyCell21 = 0. ;
+ depositedEnergyCell22 = 0. ;
+ depositedEnergyCell23 = 0. ;
+ depositedEnergyCell24 = 0. ;
   depositedEnergyFibres_post = 0. ;
   depositedEnergyAbsorber_post = 0. ;
   depositedEnergyWorld = 0. ;
