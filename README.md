@@ -4,7 +4,7 @@
 
 Instructions for installation on a personal PC
 
-To donwnload and compile the package (assuming you have a local working release of Geant4 and CLHEP installed), execute the following commands:
+To donwnload and compile the package (assuming you have a local working release of Geant4, Root and CLHEP installed), execute the following commands:
 
 git clone https://github.com/eshmanin/SPACAL.git
 cd SPACAL/build
