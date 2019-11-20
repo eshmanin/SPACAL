@@ -337,7 +337,103 @@ void SteppingAction::UserSteppingAction (const G4Step * theStep)
 
     // }
 
+if (protoType == 1 ){
+  // *********************************
+  if( global_x>=-1.5*cellsize && global_x <= -0.5*cellsize && global_y >= -1.5*cellsize -5 && global_y <= -0.5*cellsize && global_z <0 && global_z < devider )
+  {      if( !isInPostshower )
+    CreateTree::Instance ()->depositedEnergyCell7 += energy/GeV;
+  }
 
+  if( global_x>=-1.5*cellsize && global_x <= -0.5*cellsize && global_y >= -0.5*cellsize && global_y <= 0.5*cellsize && global_z <0  && global_z < devider )
+  {      if( !isInPostshower )
+    CreateTree::Instance ()->depositedEnergyCell8 += energy/GeV;
+  }
+
+  if( global_x>=-1.5*cellsize && global_x <= -0.5*cellsize && global_y >= 0.5*cellsize && global_y <= 1.5*cellsize +5 && global_z <0  && global_z < devider )
+  {      if( !isInPostshower )
+    CreateTree::Instance ()->depositedEnergyCell9 += energy/GeV;
+  }
+
+  if( global_x>=-0.5*cellsize && global_x <= 0.5*cellsize && global_y >= -1.5*cellsize -5 && global_y <= -0.5*cellsize && global_z <0  && global_z < devider )
+  {      if( !isInPostshower )
+    CreateTree::Instance ()->depositedEnergyCell4 += energy/GeV;
+  }
+
+  if( global_x>=-0.5*cellsize && global_x <= 0.5*cellsize && global_y >= -0.5*cellsize && global_y <= 0.5*cellsize && global_z <0  && global_z < devider )
+  {      if( !isInPostshower )
+    CreateTree::Instance ()->depositedEnergyCell5 += energy/GeV;
+  }
+
+  if( global_x>=-0.5*cellsize && global_x <= 0.5*cellsize && global_y >= 0.5*cellsize && global_y <= 1.5*cellsize +5 && global_z <0  && global_z < devider )
+  {      if( !isInPostshower )
+    CreateTree::Instance ()->depositedEnergyCell6 += energy/GeV;
+  }
+
+  if( global_x>=0.5*cellsize && global_x <= 1.5*cellsize && global_y >= -1.5*cellsize -5 && global_y <= -0.5*cellsize && global_z <0  && global_z < devider )
+  {      if( !isInPostshower )
+    CreateTree::Instance ()->depositedEnergyCell1 += energy/GeV;
+  }
+
+  if( global_x>=0.5*cellsize && global_x <= 1.5*cellsize && global_y >= -0.5*cellsize && global_y <= 0.5*cellsize && global_z <0  && global_z < devider )
+  {      if( !isInPostshower )
+    CreateTree::Instance ()->depositedEnergyCell2 += energy/GeV;
+  }
+  if( global_x>=0.5*cellsize && global_x <= 1.5*cellsize && global_y >= 0.5*cellsize && global_y <= 1.5*cellsize +5 && global_z <0  && global_z < devider )
+  {      if( !isInPostshower )
+    CreateTree::Instance ()->depositedEnergyCell3 += energy/GeV;
+  }
+
+
+
+
+  if( global_x>=-1.5*cellsize && global_x <= -0.5*cellsize && global_y >= -1.5*cellsize -5 && global_y <= -0.5*cellsize && global_z > devider )
+  {      if( !isInPostshower )
+    CreateTree::Instance ()->depositedEnergyCell16 += energy/GeV;
+  }
+
+  if( global_x>=-1.5*cellsize && global_x <= -0.5*cellsize && global_y >= -0.5*cellsize && global_y <= 0.5*cellsize && global_z > devider )
+  {      if( !isInPostshower )
+    CreateTree::Instance ()->depositedEnergyCell17 += energy/GeV;
+  }
+
+  if( global_x>=-1.5*cellsize && global_x <= -0.5*cellsize && global_y >= 0.5*cellsize && global_y <= 1.5*cellsize +5 && global_z > devider )
+  {      if( !isInPostshower )
+    CreateTree::Instance ()->depositedEnergyCell18 += energy/GeV;
+  }
+
+  if( global_x>=-0.5*cellsize && global_x <= 0.5*cellsize && global_y >= -1.5*cellsize -5 && global_y <= -0.5*cellsize && global_z > devider )
+  {      if( !isInPostshower )
+    CreateTree::Instance ()->depositedEnergyCell13 += energy/GeV;
+  }
+
+  if( global_x>=-0.5*cellsize && global_x <= 0.5*cellsize && global_y >= -0.5*cellsize && global_y <= 0.5*cellsize && global_z > devider )
+  {      if( !isInPostshower )
+    CreateTree::Instance ()->depositedEnergyCell14 += energy/GeV;
+  }
+
+  if( global_x>=-0.5*cellsize && global_x <= 0.5*cellsize && global_y >= 0.5*cellsize && global_y <= 1.5*cellsize +5 && global_z > devider )
+  {      if( !isInPostshower )
+    CreateTree::Instance ()->depositedEnergyCell15 += energy/GeV;
+  }
+
+  if( global_x>=0.5*cellsize && global_x <= 1.5*cellsize && global_y >= -1.5*cellsize -5 && global_y <= -0.5*cellsize && global_z > devider )
+  {      if( !isInPostshower )
+    CreateTree::Instance ()->depositedEnergyCell10 += energy/GeV;
+  }
+
+  if( global_x>=0.5*cellsize && global_x <= 1.5*cellsize && global_y >= -0.5*cellsize && global_y <= 0.5*cellsize && global_z > devider )
+  {      if( !isInPostshower )
+    CreateTree::Instance ()->depositedEnergyCell11 += energy/GeV;
+  }
+  if( global_x>=0.5*cellsize && global_x <= 1.5*cellsize && global_y >= 0.5*cellsize && global_y <= 1.5*cellsize +5 && global_z > devider )
+  {      if( !isInPostshower )
+    CreateTree::Instance ()->depositedEnergyCell12 += energy/GeV;
+  }
+
+}
+
+
+else{
     // *********************************
     if( global_x>=-2*cellsize && global_x <= -1*cellsize && global_y >= -1.5*cellsize -5 && global_y <= -0.5*cellsize && global_z <0 && global_z < devider )
     {      if( !isInPostshower )
@@ -459,7 +555,7 @@ void SteppingAction::UserSteppingAction (const G4Step * theStep)
     {      if( !isInPostshower )
       CreateTree::Instance ()->depositedEnergyCell15 += energy/GeV;
     }
-
+}
 
   //   // ***********************************************************
 

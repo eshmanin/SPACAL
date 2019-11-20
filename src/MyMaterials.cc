@@ -475,7 +475,7 @@ G4Material* MyMaterials::Tungsten()
   G4Element* Ni = man->FindOrBuildElement("Ni");
   G4Element* Cu = man->FindOrBuildElement("Cu");
 
-  G4Material* mat = new G4Material("Tungsten",density=19.1*g/cm3,3);
+  G4Material* mat = new G4Material("Tungsten",density=19.0*g/cm3,3);
   mat->AddElement(W,90.*perCent);
   mat->AddElement(Ni,5.*perCent);
   mat->AddElement(Cu,5.*perCent);
