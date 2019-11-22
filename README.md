@@ -1,5 +1,5 @@
 # SPACAL Simulation code
-## Instruction for using Docker
+## Instructions for using Docker
 the docker images will download all the necessary libraries, dependencies and will self compile.
 * Check if docker is running
 ```
@@ -49,7 +49,7 @@ depositedEnergyFibresCross
 depositedEnergyFibresCenter
 depositedEnergyFibresCorners
 ```
-For new prototypes this branches containt: 
+For new prototypes this branches containt:
 ```
 depositedEnergyFibresCross = Energy in Bottom side      (Yellow in visualization)
 depositedEnergyFibresCenter = Energy in Up side         (Red one)
