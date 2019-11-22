@@ -1,8 +1,23 @@
 # SPACAL Simulation code
+## Instruction of using Docker
+the docker images will download all the necessary libraries, dependencies and will self compile.
+* Check if docker is running
+```
+systemctl enable docker
+systemctl start docker
+```
+* Build the Docker image
+```
+docker build --rm -t spacal
+```
+* Run the Docker image
+```
+docker run -it spacal:latest
+```
 
 
 
-Instructions for installation on a personal PC
+## Instructions for installation on a personal PC
 
 To donwnload and compile the package (assuming you have a local working release of Geant4, Root and CLHEP installed), execute the following commands:
 
@@ -34,7 +49,7 @@ For new prototypes this branches containt:
                                             depositedEnergyFibresCross = Energy in Bottom side      (Yellow in visualization)
                                             depositedEnergyFibresCenter = Energy in Up side         (Red one)
                                             depositedEnergyFibresCorners = Energy in Accessory side (Green one)
-                                            
-                            
-                                                                    
-                                                             
+
+
+
+
