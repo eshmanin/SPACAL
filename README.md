@@ -15,6 +15,20 @@ docker build --rm -t spacal
 docker run --rm -e DISPLAY:$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -it spacal:latest
 ```
 
+## Converting ".root" file to ".npz"
+```
+python dataloade.py --path {file.root} --output {output filename}
+```
+Using the dataloader will save the .root file as .npz which contain multiple arrays in a compressed format.
+
+Loading .npz file example:
+```
+import numpy as np
+array = np.load("{filepath}", allow_pickle=True)
+tree_item = array["arr_0"][index]
+```
+
+
 
 
 ## Instructions for installation on a personal PC

@@ -10,7 +10,7 @@ ENV CLHEP clhep-2.0.4.5-1.el6.rf.x86_64.rpm
 ENV G4LEDATA /usr/share/Geant4-10.5.1-Linux/data/G4EMLOW7.7
 ENV G4LEDATA /usr/share/Geant4-10.5.1-Linux/data/4ENSDFSTATEDATA/ENSDFSTATE.dat
 ADD ${CLHEP_URL} /tmp/
-RUN yum -y update && yum clean all && yum -y install sudo mesa-dri-drivers which gcc gcc-c++ git wget cmake make libXft  libXpm libSM libXext mesa-libGLU.1686 libGLU libXmu &&\
+RUN yum -y install epel-release && yum -y update && yum clean all && yum -y install python-pip python3 python3-devel python-devel mesa-dri-drivers which gcc gcc-c++ git wget cmake make libXft  libXpm libSM libXext mesa-libGLU.1686 libGLU libXmu &&\
     rpm -Uvh /tmp/${CLHEP}
 
 RUN ln -sn /usr/lib64/libXmu.so.6 /usr/lib64/libXmu.so     &&   ln -sn  /usr/lib64/libGLU.so.1 /usr/lib64/libGLU.so && \
@@ -55,7 +55,8 @@ RUN echo "source /usr/share/root/bin/thisroot.sh"                   >> /root/.ba
 
 ADD ./ /root/SPACAL/
 RUN ["/bin/bash", "-c", "source /usr/share/root/bin/thisroot.sh && source /usr/share/Geant4-10.5.1-Linux/bin/geant4.sh && \
-cd /root/SPACAL/ && mkdir -p /root/SPACAL/Build/ && cd /root/SPACAL/Build && cmake .. && make -j && cp ./FibresCalo .."]
+cd /root/SPACAL/ && mkdir -p /root/SPACAL/Build/ && cd /root/SPACAL/Build && cmake .. && make -j && cp ./FibresCalo .. && pip install numpy==1.15  && pip install root_numpy"]
+
 
 WORKDIR /root/SPACAL
 
