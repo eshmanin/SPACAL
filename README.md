@@ -12,7 +12,7 @@ docker build --rm -t spacal
 ```
 * Run the Docker image
 ```
-docker run -it spacal:latest
+docker run --rm -e DISPLAY:$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -it spacal:latest
 ```
 
 
