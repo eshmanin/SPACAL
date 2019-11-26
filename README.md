@@ -17,7 +17,7 @@ docker run --rm -e DISPLAY:$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -it spacal:
 
 ## Converting ".root" file to ".npz"
 ```
-python dataloade.py --path {file.root} --output {output filename}
+python dataloader.py --path {file.root} --output {output filename}
 ```
 Using the dataloader will save the .root file as .npz which contain multiple arrays in a compressed format.
 
