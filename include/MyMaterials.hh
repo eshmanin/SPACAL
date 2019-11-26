@@ -43,6 +43,7 @@ public:
   static G4Material* PVC();
   static G4Material* CuAir(); //PMT tube
   static G4Material* Cu(); // Wires
+  static G4Material* LeadTungstenAlloy(const G4double& LWFrac);
   
   static G4double fromNmToEv(G4double wavelength);
   static G4double fromEvToNm(G4double energy);

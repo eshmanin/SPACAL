@@ -87,6 +87,7 @@ DetectorConstruction::DetectorConstruction (const string& configFileName)
 
   config.readInto (abs_material, "abs_material") ;
   config.readInto (W_fraction, "W_fraction") ;
+ config.readInto (LW_fraction, "LW_fraction") ;
   config.readInto (hole_radius, "hole_radius") ;
   config.readInto (module_xy, "module_xy") ;
   config.readInto (module_yx, "module_yx") ;
@@ -104,6 +105,7 @@ DetectorConstruction::DetectorConstruction (const string& configFileName)
   config.readInto (Second_module_xy, "Second_module_xy");
   config.readInto (Second_module_yx, "Second_module_yx") ;
   config.readInto (Second_W_fraction, "Second_W_fraction") ;
+ config.readInto (Second_LW_fraction, "Second_LW_fraction") ;
   config.readInto (Second_fibres_x, "Second_fibres_x");
   config.readInto (Second_fibres_y, "Second_fibres_y");
   config.readInto (Second_fibres_x1, "Second_fibres_x1");
@@ -1270,6 +1272,7 @@ void DetectorConstruction::initializeMaterials ()
   else if ( abs_material == 4 ) AbMaterial = MyMaterials::Iron () ;
   else if ( abs_material == 5 ) AbMaterial = MyMaterials::Aluminium () ;
   else if ( abs_material == 6 ) AbMaterial = MyMaterials::CopperTungstenAlloy(W_fraction) ;
+  else if ( abs_material == 7 ) AbMaterial = MyMaterials::LeadTungstenAlloy(LW_fraction) ;
   else
   {
     G4cerr << "<DetectorConstructioninitializeMaterials>: Invalid absorber material specifier " << abs_material << G4endl ;
@@ -1286,7 +1289,8 @@ void DetectorConstruction::initializeMaterials ()
   else if ( Second_abs_material == 3 ) AbMaterial2 = MyMaterials::Lead () ;
   else if ( Second_abs_material == 4 ) AbMaterial2 = MyMaterials::Iron () ;
   else if ( Second_abs_material == 5 ) AbMaterial2 = MyMaterials::Aluminium () ;
-  else if ( Second_abs_material == 6 ) AbMaterial2 = MyMaterials::CopperTungstenAlloy(W_fraction) ;
+  else if ( Second_abs_material == 6 ) AbMaterial2 = MyMaterials::CopperTungstenAlloy(Second_W_fraction) ;
+  else if ( Second_abs_material == 7 ) AbMaterial2 = MyMaterials::LeadTungstenAlloy(Second_LW_fraction) ;
   else
   {
     G4cerr << "<DetectorConstructioninitializeMaterials>: Invalid absorber material specifier " << Second_abs_material << G4endl ;

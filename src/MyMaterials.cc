@@ -475,7 +475,7 @@ G4Material* MyMaterials::Tungsten()
   G4Element* Ni = man->FindOrBuildElement("Ni");
   G4Element* Cu = man->FindOrBuildElement("Cu");
 
-  G4Material* mat = new G4Material("Tungsten",density=19.0*g/cm3,3);
+  G4Material* mat = new G4Material("Tungsten",density=18.5*g/cm3,3);
   mat->AddElement(W,90.*perCent);
   mat->AddElement(Ni,5.*perCent);
   mat->AddElement(Cu,5.*perCent);
@@ -511,11 +511,30 @@ G4Material* MyMaterials::CopperTungstenAlloy(const G4double& WFrac)
   G4double rho_Cu = 8.96;
   G4double rho_W = 19.25;
   G4double rho = (1.-WFrac)*rho_Cu + WFrac*rho_W;
-  G4Material* mat = new G4Material("CopperTungstenAlloy",density=15.0*g/cm3,2);
+  G4Material* mat = new G4Material("CopperTungstenAlloy",density=rho*g/cm3,2);
   mat->AddElement(Cu,1.-WFrac);
   mat->AddElement(W,WFrac);
 
   return mat;
+}
+
+G4Material* MyMaterials::LeadTungstenAlloy(const G4double& LWFrac)
+{
+ G4double a, z, density;
+  G4NistManager* man = G4NistManager::Instance();
+  G4Element* W = man->FindOrBuildElement("W");
+  G4Element* Pb = man->FindOrBuildElement("Pb");
+
+  G4double rho_Pb = 11.34;
+  G4double rho_W = 19.25;
+  G4double rho = (1.-LWFrac)*rho_Pb + LWFrac*rho_W;
+  G4Material* mat = new G4Material("LeadTungstenAlloy",density=rho*g/cm3,2);
+  mat->AddElement(Pb,1.-LWFrac);
+  mat->AddElement(W,LWFrac);
+
+  return mat;
+
+  G4cout<< "Density_of_Alloy = " << rho << G4endl; 
 }
 
 

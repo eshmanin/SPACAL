@@ -95,6 +95,8 @@ private:
   G4int    Second_abs_material ;    // absorber material in second sections
   G4double W_fraction ;      // fraction of Tungsten in the alloy
   G4double Second_W_fraction ;      // fraction of Tungsten in the alloy Secondsection (if needed)
+  G4double LW_fraction ;      // fraction of Tungsten in the Lead alloy
+  G4double Second_LW_fraction ;      // fraction of Tungsten in the Lead alloy Secondsection (if needed)
   G4double hole_radius ;     // radius of the holes
   G4double module_z ;        // will be set as fibre length
   G4double Second_module_z ;        // will be set as Second_fibre length
