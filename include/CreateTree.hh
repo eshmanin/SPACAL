@@ -93,6 +93,12 @@ float depositedEnergy_2nd_Sect_FibresCorners;
   float depositedEnergyBelow_1st_Sect;
   float depositedEnergyAbove_2nd_Sect;
   float depositedEnergyBelow_2nd_Sect;
+
+  float primaryMomentumAtVertexX;
+  float primaryMomentumAtVertexY;
+  float primaryMomentumAtVertexZ;
+  float primaryEnergyAtVertex;
+
   std::vector<float> * depositedEnergyFibresAtt ;
 
   float totalTrackLengthFibres ;
@@ -156,6 +162,15 @@ float depositedEnergy_2nd_Sect_FibresCorners;
   TNtuple * fibresPosition_1st_Section;
   TNtuple * fibresPosition_2nd_Section;
   TTree * attenuationLengths ;
+
+
+  TNtuple * fibresParameters;
+
+  TNtuple * absmaterialsProp;
+  TNtuple * abs2materialsProp;
+  TNtuple * fibermaterialsProp;
+  TNtuple * fiber2materialsProp;
+  TNtuple * primaryParticleInfo;
 
   std::vector<float> * attLengths;
 };

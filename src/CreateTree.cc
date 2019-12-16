@@ -180,6 +180,14 @@ this->GetTree ()->Branch ("depositedEnergyBelow_2nd_Sect",     &this->depositedE
   fibresPosition_1st_Section = new TNtuple ("fibresPosition_1st_Section", "fibresPosition_1st_Section", "N:x:y") ;
   fibresPosition_2nd_Section = new TNtuple ("fibresPosition_2nd_Section", "fibresPosition_2nd_Section", "N:x:y") ;
 
+  fibresParameters = new TNtuple ("fibresRadius", "fibresRadius", "fradius:fdistance");
+
+  absmaterialsProp = new TNtuple ("absmaterialsProp", "absmaterialsProp", "absDens:absMoliere:absX0");
+  abs2materialsProp = new TNtuple ("abs2materialsProp", "abs2materialsProp", "abs2Dens:abs2Moliere:abs2X0");
+  fibermaterialsProp = new TNtuple ("fibermaterialsProp", "fibermaterialsProp", "fibFirstSectDens:fib1_FirstSectDens:fibFirstSectX0:fib1_FirstSectX0:fibFirstSectMoliere:fib1_FirstSectMoliere");
+  fiber2materialsProp = new TNtuple ("fiber2materialsProp", "fiber2materialsProp", "fibSecondSectDens:fib1_SecondSectDens:fibSecondSectX0:fib1_SecondSectX0:fibSecondSectMoliere:fib1_SecondSectMoliere");
+
+  primaryParticleInfo = new TNtuple ("primaryParticleInfo", "primaryParticleInfo", "primaryMomentumAtVertexX:primaryMomentumAtVertexY:primaryMomentumAtVertexZ:primaryEnergyAtVertex");
 
 
   attenuationLengths = new TTree("attenuationLengths", "attenuationLenghts");
@@ -357,6 +365,13 @@ bool CreateTree::Write (TFile * outfile)
   fibresPosition->Write () ;
   fibresPosition_1st_Section->Write () ;
   fibresPosition_2nd_Section->Write () ;
+  fibresParameters->Write ();
+  absmaterialsProp->Write();
+  abs2materialsProp->Write();
+  fibermaterialsProp->Write();
+  fiber2materialsProp->Write();
+  primaryParticleInfo->Write();
+  
   attenuationLengths->Write() ;
   //h_phot_cer_lambda->Write();
   //h_phot_cer_E->Write();

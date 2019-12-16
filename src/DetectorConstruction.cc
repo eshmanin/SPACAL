@@ -148,11 +148,8 @@ config.readInto (Second_fibre_distance, "Second_fibre_distance") ;
   config.readInto (lp_x, "lp_x") ;
   config.readInto (lp_y, "lp_y") ;
 
-
-
+CreateTree::Instance() -> fibresParameters -> Fill(fibre_radius,fibre_distance);
   B_field_intensity = config.read<double>("B_field_intensity") * tesla ;
-
-
   margin = std::max( 0.25*fibre_distance, 2.*fibre_radius );
   G4double staggering = 0.5*fibre_distance*((fibre_scheme+1)%2);
   G4double staggeredStart = 0.5 + 0.5*(fibre_scheme%2);
@@ -275,6 +272,9 @@ config.readInto (Second_fibre_distance, "Second_fibre_distance") ;
   B_field_IsInitialized = false ;
 
   initializeMaterials () ;
+
+
+  CreateTree::Instance() -> fibresParameters -> Fill(fibre_radius,fibre_distance);
 }
 
 
@@ -303,7 +303,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct ()
   G4VSolid * worldS = new G4Box ("worldS", 0.5 * expHall_x, 0.5 * expHall_y, 0.5 * expHall_z) ;
   G4LogicalVolume * worldLV = new G4LogicalVolume (worldS, WoMaterial, "worldLV", 0, 0, 0) ;
   G4VPhysicalVolume * worldPV = new G4PVPlacement (0, G4ThreeVector (), worldLV, "World", 0, false, 0, checkOverlaps) ;
-  //******************************************___ I'M here now ****************
+
 
   // The calorimeter
   // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
@@ -1467,6 +1467,124 @@ else
   G4cout << "Detector material: " << det_material << G4endl;
 
 
+      fibFirstSectDens = ClMaterial ->GetDensity()*CLHEP::cm3/CLHEP::g;
+      fibSecondSectDens = Cl3Material ->GetDensity()*CLHEP::cm3/CLHEP::g;
+      fib1_FirstSectDens = ClSSMaterial ->GetDensity()*CLHEP::cm3/CLHEP::g;
+      fib1_SecondSectDens = Cl4SSMaterial ->GetDensity()*CLHEP::cm3/CLHEP::g;
+      absDens = AbMaterial ->GetDensity()*CLHEP::cm3/CLHEP::g;
+      fibFirstSectMoliere;
+      fibSecondSectMoliere;
+      fib1_FirstSectMoliere;
+      fib1_SecondSectMoliere;
+      fibFirstSectX0 = ClMaterial ->GetRadlen()/CLHEP::cm;
+      fibSecondSectX0 = Cl3Material ->GetRadlen()/CLHEP::cm;
+      fib1_FirstSectX0 = ClSSMaterial ->GetRadlen()/CLHEP::cm;
+      fib1_SecondSectX0 = Cl4SSMaterial ->GetRadlen()/CLHEP::cm;
+      absX0 = AbMaterial->GetRadlen()/CLHEP::cm;
+      abs2Dens = AbMaterial2 ->GetDensity()*CLHEP::cm3/CLHEP::g;
+      abs2Moliere;
+      abs2X0 = AbMaterial2->GetRadlen()/CLHEP::cm;
+      //absZ = AbMaterial -> GetZ() ;
+G4float TempZ;
+G4int nofElements = AbMaterial->GetNumberOfElements();
+G4cout << " Fisrt section absorber:  " << endl;
+        for (G4int i=0; i<nofElements; i++) {
+          G4double zOfElement = AbMaterial->GetElement(i)->GetZ();
+          G4double massFraction = AbMaterial->GetFractionVector()[i];
+           cout << AbMaterial->GetElement(i)->GetName()
+          <<" Z= "<<zOfElement << " , Fraction= "<<massFraction <<G4endl;
+          absZ += zOfElement*massFraction;
+        }
+      absMoliere = 0.0265*absX0*(absZ+1.2);
+
+      G4int noAb2fElements = AbMaterial2->GetNumberOfElements();
+      G4cout << " Second section absorber:  " << endl;
+              for (G4int i=0; i<nofElements; i++) {
+                G4double zOfElement = AbMaterial2->GetElement(i)->GetZ();
+                G4double massFraction = AbMaterial2->GetFractionVector()[i];
+                 cout << AbMaterial2->GetElement(i)->GetName()
+                <<" Z= "<<zOfElement << " , Fraction= "<<massFraction <<endl << endl;
+                abs2Z += zOfElement*massFraction;
+              }
+            abs2Moliere = 0.0265*abs2X0*(abs2Z+1.2);
+            TempZ = 0;
+
+  G4int noClfElements = ClMaterial->GetNumberOfElements();
+
+  //G4int noCompClfElements = ClMaterial->GetNumberOfComponents();
+G4cout << " Fisrt section fibers:  " << endl;
+              for (G4int i=0; i<noClfElements; i++) {
+                G4double zOfElement = ClMaterial->GetElement(i)->GetZ();
+                G4double massFraction = ClMaterial->GetFractionVector()[i];
+                G4int AAaa =  ClMaterial->GetAtomsVector()[i];
+                // cout << mat->GetElement(i)->GetName()
+                //      <<" Z= "<<zOfElement << " , Fraction= "<<massFraction <<endl;
+                cout << ClMaterial->GetElement(i)->GetName()
+                <<" Z= "<<zOfElement << " , Fraction= "<<massFraction <<endl << endl;
+                TempZ += pow(zOfElement,2.94)*massFraction;
+      //          G4cout << " Number of atoms? = " << AAaa << endl;
+      //          G4cout << " TempZ =  " << TempZ << G4endl;
+              }
+              fibFirstSectZ = pow(TempZ,1/2.94);
+              G4cout << " fibFirstSectZ =  " << fibFirstSectZ << G4endl;
+            fibFirstSectMoliere = 0.0265*fibFirstSectX0*(fibFirstSectZ+1.2);
+TempZ = 0;
+
+G4int noClSSfElements = ClSSMaterial -> GetNumberOfElements();
+G4cout << " Fisrt section fibers Above part:  " << endl;
+  for (G4int i=0; i<noClSSfElements; i++){
+    G4double zOfElement = ClSSMaterial->GetElement(i)->GetZ();
+    G4double massFraction = ClSSMaterial->GetFractionVector()[i];
+    G4int AAaa = ClSSMaterial->GetAtomsVector()[i];
+
+    cout << ClSSMaterial->GetElement(i)->GetName()
+    <<" Z= "<<zOfElement << " , Fraction= "<<massFraction <<endl << endl;
+    TempZ += pow(zOfElement,2.94)*massFraction;
+  }
+  fib1_FirstSectZ = pow(TempZ,1/2.94);
+  fib1_FirstSectMoliere = 0.0265*fib1_FirstSectX0*(fib1_FirstSectZ+1.2);
+  TempZ=0;
+
+  G4int noCl3fElements = Cl3Material -> GetNumberOfElements();
+G4cout << " Second section fibers:  " << endl;
+    for (G4int i=0; i<noCl3fElements; i++){
+      G4double zOfElement = Cl3Material->GetElement(i)->GetZ();
+      G4double massFraction = Cl3Material->GetFractionVector()[i];
+      G4int AAaa = Cl3Material->GetAtomsVector()[i];
+      cout << Cl3Material->GetElement(i)->GetName()
+      <<" Z= "<<zOfElement << " , Fraction= "<<massFraction <<endl << endl;
+      TempZ += pow(zOfElement,2.94)*massFraction;
+    }
+    fibSecondSectZ = pow(TempZ,1/2.94);
+    fibSecondSectMoliere = 0.0265*fibSecondSectX0*(fibSecondSectZ+1.2);
+    TempZ=0;
+
+      G4int noCl4SSfElements = Cl4SSMaterial -> GetNumberOfElements();
+      G4cout << " Second section fibers above part:  " << endl;
+        for (G4int i=0; i<noCl4SSfElements; i++){
+          G4double zOfElement = Cl4SSMaterial->GetElement(i)->GetZ();
+          G4double massFraction = Cl4SSMaterial->GetFractionVector()[i];
+          G4int AAaa = Cl4SSMaterial->GetAtomsVector()[i];
+          cout << Cl4SSMaterial->GetElement(i)->GetName()
+          <<" Z= "<<zOfElement << " , Fraction= "<<massFraction <<endl << endl;
+          TempZ += pow(zOfElement,2.94)*massFraction;
+        }
+        fib1_SecondSectZ = pow(TempZ,1/2.94);
+        fib1_SecondSectMoliere = 0.0265*fib1_SecondSectX0*(fib1_SecondSectZ+1.2);
+        TempZ=0;
+
+
+
+
+
+
+      G4cout << " Charge of absorber =  " << absZ << " absMoliere " << absMoliere << " Charge of fiber =  " << fibFirstSectZ << " Moliere_Fib " << fibFirstSectMoliere << " X0_Fib " << fibFirstSectX0 << G4endl;
+
+      fibMatName = ClMaterial-> GetName();
+      CreateTree::Instance() -> absmaterialsProp -> Fill(absDens,absMoliere,absX0);
+      CreateTree::Instance() -> abs2materialsProp -> Fill(abs2Dens,abs2Moliere,abs2X0);
+      CreateTree::Instance() -> fibermaterialsProp -> Fill(fibFirstSectDens,fib1_FirstSectDens,fibFirstSectX0,fib1_FirstSectX0,fibFirstSectMoliere,fib1_FirstSectMoliere);
+      CreateTree::Instance() -> fiber2materialsProp -> Fill(fibSecondSectDens,fib1_SecondSectDens,fibSecondSectX0,fib1_SecondSectX0,fibSecondSectMoliere,fib1_SecondSectMoliere);
 
   if( fibre_absLength >= 0 )
   {
@@ -1481,8 +1599,9 @@ else
           ClSSMaterial->GetMaterialPropertiesTable()->RemoveProperty("ABSLENGTH");
         ClSSMaterial->GetMaterialPropertiesTable()->AddProperty("ABSLENGTH",PhotonEnergy_ABS,Absorption,nEntries_ABS);
     //___________________________________________________________
-  }
 
+
+  }
 }
 
 

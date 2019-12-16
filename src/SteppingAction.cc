@@ -79,15 +79,11 @@ void SteppingAction::UserSteppingAction (const G4Step * theStep)
 
   G4int nStep = theTrack -> GetCurrentStepNumber();
 
-
-
   //-------------------
   // get local position
   G4double global_x = thePrePosition.x()/mm;
   G4double global_y = thePrePosition.y()/mm;
   G4double global_z = thePrePosition.z()/mm;
-
-
 
 
   G4double module_z = fDetectorConstruction->GetModule_z();
@@ -267,6 +263,22 @@ void SteppingAction::UserSteppingAction (const G4Step * theStep)
   {
     //G4cout << ">>> begin non optical photon" << G4endl;
 
+
+
+        if(theTrack->GetTrackID() == 1) // primary particle (not optical photon)
+      {
+      G4ThreeVector particleVertexPosition = theTrack->GetVertexPosition ();
+      G4ThreeVector particleVertexMomentum = theTrack->GetVertexMomentumDirection ();
+      G4double      particleVertexEnergy   = theTrack->GetVertexKineticEnergy ();
+
+      G4double primaryMomentumAtVertexX = particleVertexMomentum.getX();
+      G4double primaryMomentumAtVertexY = particleVertexMomentum.getY();
+      G4double primaryMomentumAtVertexZ = particleVertexMomentum.getZ();
+      G4double primaryEnergyAtVertex    = particleVertexEnergy /GeV;
+
+      CreateTree::Instance()->primaryParticleInfo->Fill(primaryMomentumAtVertexX, primaryMomentumAtVertexY, primaryMomentumAtVertexZ, primaryEnergyAtVertex);
+    }
+
     G4double energy = theStep->GetTotalEnergyDeposit() - theStep->GetNonIonizingEnergyDeposit();
     if ( energy == 0. ) return ;
 
@@ -285,6 +297,7 @@ void SteppingAction::UserSteppingAction (const G4Step * theStep)
     {
       if( !isInPostshower )
         CreateTree::Instance ()->depositedEnergyFibres += energy/GeV;
+
       else
         CreateTree::Instance ()->depositedEnergyFibres_post += energy/GeV;
 

@@ -42,6 +42,7 @@
 #include "MyMaterials.hh"
 #include "LedFiberTiming.hh"
 #include "DetectorParameterisation.hh"
+#include "GVFlashShowerParameterisation.hh"
 
 #include "G4Material.hh"
 #include "G4VUserDetectorConstruction.hh"
@@ -54,6 +55,7 @@
 #include "G4PVPlacement.hh"
 #include "G4PVReplica.hh"
 #include "G4SubtractionSolid.hh"
+#include "TGeoMaterial.h"
 #include "G4VisAttributes.hh"
 #include "G4UniformMagField.hh"
 
@@ -222,6 +224,36 @@ G4int protoType;
   G4double det_l ;
 
   G4double depth ;
+
+  G4double fibFirstSectDens;
+  G4double fibSecondSectDens;
+  G4double fib1_FirstSectDens;
+  G4double fib1_SecondSectDens;
+  G4double absDens;
+  G4double absMoliere;
+  G4double fibFirstSectMoliere;
+  G4double fibSecondSectMoliere;
+  G4double fib1_FirstSectMoliere;
+  G4double fib1_SecondSectMoliere;
+  G4double fibFirstSectX0;
+  G4double fibSecondSectX0;
+  G4double fib1_FirstSectX0;
+  G4double fib1_SecondSectX0;
+  G4double absX0;
+  G4double abs2Dens;
+  G4double abs2Moliere;
+  G4double abs2X0;
+  G4double NuIntLenFib;
+
+  G4float fibFirstSectZ;
+  G4float fib1_FirstSectZ;
+  G4float fibSecondSectZ;
+  G4float fib1_SecondSectZ;
+  G4float absZ;
+  G4float abs2Z;
+
+
+  G4String fibMatName;
 
   std::vector<G4double> attLengths;
 

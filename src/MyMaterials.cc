@@ -309,8 +309,8 @@ G4Material* MyMaterials::YAG_Ce()
 {
   G4double a, z, density;
 
-  G4Element* Y  = new G4Element("Silicon",   "Y",  z = 39., a = 88.01* g/mole);
-  G4Element* Al = new G4Element("Aluminium", "Al", z = 27., a = 28.09* g/mole);
+  G4Element* Y  = new G4Element("Yttrium",   "Y",  z = 39., a = 88.01* g/mole);
+  G4Element* Al = new G4Element("Aluminium", "Al", z = 13., a = 28.09* g/mole);
   G4Element* O  = new G4Element("Oxygen",    "O",  z =  8., a = 16.00* g/mole);
 
   G4Material* mat = new G4Material ("YAGCe", density = 4.6*g/cm3,3);
@@ -534,7 +534,7 @@ G4Material* MyMaterials::LeadTungstenAlloy(const G4double& LWFrac)
 
   return mat;
 
-  G4cout<< "Density_of_Alloy = " << rho << G4endl; 
+  G4cout<< "Density_of_Alloy = " << rho << G4endl;
 }
 
 
@@ -1404,12 +1404,12 @@ G4Material* MyMaterials::GAGG_Ce() // Gadolinium Aluminium Gallium Garnet- Ce-do
   G4Element* Ga = new G4Element("Gallium", "Ga", z=31., a=69.723*g/mole);
   G4Element* Gd = new G4Element("Gadollinium", "Gd", z=64., a=157.25*g/mole);
 
-  G4Element* Al = new G4Element("Aluminum", "Al", z=27., a= 28.09*g/mole);
+  G4Element* Al = new G4Element("Aluminum", "Al", z=13., a= 28.09*g/mole);
 
   G4Material* mat = new G4Material("GAGG_Ce", density=6.63*g/cm3,4);
   mat->AddElement(Gd,3);
-  mat->AddElement(Ga,5);
-  mat->AddElement(Al,5);
+  mat->AddElement(Ga,3);
+  mat->AddElement(Al,2);
   mat->AddElement(O,12);
 
   //NOw this is the end. I didn't change the raise and decay time
