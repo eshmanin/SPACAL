@@ -155,7 +155,9 @@ G4double margin2 ;
   G4int    nFibresAlongX ;        // number of fibres along the Y side of the calo tower
   G4int    nFibresAlongY ;        // number of fibres along the Y side of the calo tower
   G4int    nFibresAlongX1 ;        // number of secondary fibres along the  side of the calo tower inside
-  G4int    nFibresAlongY1 ;        // number of secondary  fibres along the Y side of the calo tower inside
+  G4int    nFibresAlongY1 ;
+  G4int    nFibresAlongX2 ;        // number of secondary fibres along the  side of the calo tower inside
+  G4int    nFibresAlongY2 ;       // number of secondary  fibres along the Y side of the calo tower inside
   G4double fibreDistanceAlongX;
   G4double fibreDistanceAlongY;
 
@@ -163,7 +165,9 @@ G4double margin2 ;
   G4int    Second_nFibresAlongX ;        // number of fibres along the Y side of the calo tower
   G4int    Second_nFibresAlongY ;        // number of fibres along the Y side of the calo tower
   G4int    Second_nFibresAlongX1 ;        // number of secondary fibres along the  side of the calo tower inside
-  G4int    Second_nFibresAlongY1 ;        // number of secondary  fibres along the Y side of the calo tower inside
+  G4int    Second_nFibresAlongY1 ;
+  G4int    Second_nFibresAlongX2 ;        // number of secondary fibres along the  side of the calo tower inside
+  G4int    Second_nFibresAlongY2 ;        // number of secondary  fibres along the Y side of the calo tower inside
   G4double Second_fibreDistanceAlongX;
   G4double Second_fibreDistanceAlongY;
 
@@ -243,6 +247,10 @@ G4int protoType;
   G4double abs2Dens;
   G4double abs2Moliere;
   G4double abs2X0;
+  G4double totalProtoDens;
+  G4double totalProtoX0;
+  G4double totalProtoMoliere;
+  G4double totalProtoMass;
   G4double NuIntLenFib;
 
   G4float fibFirstSectZ;

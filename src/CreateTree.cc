@@ -188,7 +188,7 @@ this->GetTree ()->Branch ("depositedEnergyBelow_2nd_Sect",     &this->depositedE
   fiber2materialsProp = new TNtuple ("fiber2materialsProp", "fiber2materialsProp", "fibSecondSectDens:fib1_SecondSectDens:fibSecondSectX0:fib1_SecondSectX0:fibSecondSectMoliere:fib1_SecondSectMoliere");
 
   primaryParticleInfo = new TNtuple ("primaryParticleInfo", "primaryParticleInfo", "primaryMomentumAtVertexX:primaryMomentumAtVertexY:primaryMomentumAtVertexZ:primaryEnergyAtVertex");
-
+  totalProtypeInfo = new TNtuple("totalProtypeInfo", "totalProtypeInfo", "totalProtoMass:totalProtoX0:totalProtoMoliere:totalProtoDens");
 
   attenuationLengths = new TTree("attenuationLengths", "attenuationLenghts");
   attenuationLengths -> Branch("attLengths","vector<float>",&attLengths);
@@ -371,7 +371,8 @@ bool CreateTree::Write (TFile * outfile)
   fibermaterialsProp->Write();
   fiber2materialsProp->Write();
   primaryParticleInfo->Write();
-  
+  totalProtypeInfo->Write();
+
   attenuationLengths->Write() ;
   //h_phot_cer_lambda->Write();
   //h_phot_cer_E->Write();

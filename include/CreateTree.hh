@@ -171,6 +171,7 @@ float depositedEnergy_2nd_Sect_FibresCorners;
   TNtuple * fibermaterialsProp;
   TNtuple * fiber2materialsProp;
   TNtuple * primaryParticleInfo;
+  TNtuple * totalProtypeInfo;
 
   std::vector<float> * attLengths;
 };

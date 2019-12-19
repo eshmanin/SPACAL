@@ -72,7 +72,6 @@
 using namespace CLHEP;
 
 
-
 DetectorConstruction::DetectorConstruction (const string& configFileName)
 {
   //---------------------------------------
@@ -148,7 +147,7 @@ config.readInto (Second_fibre_distance, "Second_fibre_distance") ;
   config.readInto (lp_x, "lp_x") ;
   config.readInto (lp_y, "lp_y") ;
 
-CreateTree::Instance() -> fibresParameters -> Fill(fibre_radius,fibre_distance);
+//CreateTree::Instance() -> fibresParameters -> Fill(fibre_radius,fibre_distance);
   B_field_intensity = config.read<double>("B_field_intensity") * tesla ;
   margin = std::max( 0.25*fibre_distance, 2.*fibre_radius );
   G4double staggering = 0.5*fibre_distance*((fibre_scheme+1)%2);
@@ -163,6 +162,8 @@ CreateTree::Instance() -> fibresParameters -> Fill(fibre_radius,fibre_distance);
     nFibresAlongY = floor( (fibres_y - 2.*margin - staggering) / fibreDistanceAlongY ) + 1 ;
     nFibresAlongX1 = floor( (fibres_x1 - 2.*margin) / fibreDistanceAlongX ) + 1 ;
     nFibresAlongY1 = floor( (fibres_y1 - 2.*margin - staggering) / fibreDistanceAlongY ) + 1 ;
+    nFibresAlongX2 = floor( (3*fibres_x1 - 2.*margin) / fibreDistanceAlongX ) + 1 ;
+    nFibresAlongY2 = floor( (fibres_y1 - 2.*margin - staggering) / fibreDistanceAlongY ) + 1 ;
     startX = 0.5 * ( module_xy - fibreDistanceAlongX * (nFibresAlongX - 1.0) ) ;
     startY = 0.5 * ( module_yx - fibreDistanceAlongY * (nFibresAlongY - staggeredStart)) ;
     startX1 = 0.5 * ( module_xy - fibreDistanceAlongX * (nFibresAlongX1 - 1.0) ) ;
@@ -176,6 +177,8 @@ CreateTree::Instance() -> fibresParameters -> Fill(fibre_radius,fibre_distance);
     nFibresAlongY = floor( (fibres_y - 2.*margin - staggering) / fibreDistanceAlongY ) + 1 ;
     nFibresAlongX1 = floor( (fibres_x1 - 2.*margin) / fibreDistanceAlongX ) + 1 ;
     nFibresAlongY1 = floor( (fibres_y1 - 2.*margin - staggering) / fibreDistanceAlongY ) + 1 ;
+    nFibresAlongX2 = floor( (3*fibres_x1 - 2.*margin) / fibreDistanceAlongX ) + 1 ;
+    nFibresAlongY2 = floor( (fibres_y1 - 2.*margin - staggering) / fibreDistanceAlongY ) + 1 ;
     startX = 0.5 * ( module_xy - fibreDistanceAlongX * (nFibresAlongX - 1.0) ) ;
     startY = 0.5 * ( module_yx - fibreDistanceAlongY * (nFibresAlongY - staggeredStart)) ;
     startX1 = 0.5 * ( module_xy - fibreDistanceAlongX * (nFibresAlongX1 - 1.0) ) ;
@@ -189,6 +192,8 @@ CreateTree::Instance() -> fibresParameters -> Fill(fibre_radius,fibre_distance);
     nFibresAlongY = floor( (fibres_y - 2.*margin - staggering) / fibreDistanceAlongY ) + 1 ;
     nFibresAlongX1 = floor( (fibres_x1 - 2.*margin)              / fibreDistanceAlongX ) + 1 ;
     nFibresAlongY1 = floor( (fibres_y1 - 2.*margin - staggering) / fibreDistanceAlongY ) + 1 ;
+    nFibresAlongX2 = floor( (3*fibres_x1 - 2.*margin) / fibreDistanceAlongX ) + 1 ;
+    nFibresAlongY2 = floor( (fibres_y1 - 2.*margin - staggering) / fibreDistanceAlongY ) + 1 ;
     startX = 0.5 * ( module_xy - fibreDistanceAlongX * (nFibresAlongX - 1.0) ) ;
     startY = 0.5 * ( module_yx - fibreDistanceAlongY * (nFibresAlongY - staggeredStart)) ;
     startX1 = 0.5 * ( module_xy - fibreDistanceAlongX * (nFibresAlongX1 - 1.0) ) ;
@@ -211,6 +216,8 @@ CreateTree::Instance() -> fibresParameters -> Fill(fibre_radius,fibre_distance);
     Second_nFibresAlongY = floor( (Second_fibres_y - 2.*margin2 - staggering2) / Second_fibreDistanceAlongY ) + 1 ;
     Second_nFibresAlongX1 = floor( (Second_fibres_x1 - 2.*margin2) / Second_fibreDistanceAlongX ) + 1 ;
     Second_nFibresAlongY1 = floor( (Second_fibres_y1 - 2.*margin2 - staggering2) / Second_fibreDistanceAlongY ) + 1 ;
+    Second_nFibresAlongX2 = floor( (3*Second_fibres_x1 - 2.*margin2) / Second_fibreDistanceAlongX ) + 1 ;
+    Second_nFibresAlongY2 = floor( (Second_fibres_y1 - 2.*margin2 - staggering2) / Second_fibreDistanceAlongY ) + 1 ;
     Second_startX = 0.5 * ( Second_module_xy - Second_fibreDistanceAlongX * (Second_nFibresAlongX - 1.0) ) ;
     Second_startY = 0.5 * ( Second_module_yx - Second_fibreDistanceAlongY * (Second_nFibresAlongY - staggeredStart2)) ;
     Second_startX1 = 0.5 * ( Second_module_xy - Second_fibreDistanceAlongX * (Second_nFibresAlongX1 - 1.0) ) ;
@@ -224,6 +231,8 @@ CreateTree::Instance() -> fibresParameters -> Fill(fibre_radius,fibre_distance);
     Second_nFibresAlongY = floor( (Second_fibres_y - 2.*margin2 - staggering2) / Second_fibreDistanceAlongY ) + 1 ;
     Second_nFibresAlongX1 = floor( (Second_fibres_x1 - 2.*margin2) / Second_fibreDistanceAlongX ) + 1 ;
     Second_nFibresAlongY1 = floor( (Second_fibres_y1 - 2.*margin2 - staggering2) / Second_fibreDistanceAlongY ) + 1 ;
+    Second_nFibresAlongX2 = floor( (3*Second_fibres_x1 - 2.*margin2) / Second_fibreDistanceAlongX ) + 1 ;
+    Second_nFibresAlongY2 = floor( (Second_fibres_y1 - 2.*margin2 - staggering2) / Second_fibreDistanceAlongY ) + 1 ;
     Second_startX = 0.5 * ( Second_module_xy - Second_fibreDistanceAlongX * (Second_nFibresAlongX - 1.0) ) ;
     Second_startY = 0.5 * ( Second_module_yx - Second_fibreDistanceAlongY * (Second_nFibresAlongY - staggeredStart2)) ;
     Second_startX1 = 0.5 * ( Second_module_xy - Second_fibreDistanceAlongX * (Second_nFibresAlongX1 - 1.0) ) ;
@@ -238,6 +247,8 @@ CreateTree::Instance() -> fibresParameters -> Fill(fibre_radius,fibre_distance);
     Second_nFibresAlongY = floor( (Second_fibres_y - 2.*margin2 - staggering2) / Second_fibreDistanceAlongY ) + 1 ;
     Second_nFibresAlongX1 = floor( (Second_fibres_x1 - 2.*margin2)              / Second_fibreDistanceAlongX ) + 1 ;
     Second_nFibresAlongY1 = floor( (Second_fibres_y1 - 2.*margin2 - staggering2) / Second_fibreDistanceAlongY ) + 1 ;
+    Second_nFibresAlongX2 = floor( (3*Second_fibres_x1 - 2.*margin2) / Second_fibreDistanceAlongX ) + 1 ;
+    Second_nFibresAlongY2 = floor( (Second_fibres_y1 - 2.*margin2 - staggering2) / Second_fibreDistanceAlongY ) + 1 ;
     Second_startX = 0.5 * ( Second_module_xy - Second_fibreDistanceAlongX * (Second_nFibresAlongX - 1.0) ) ;
     Second_startY = 0.5 * ( Second_module_yx - Second_fibreDistanceAlongY * (Second_nFibresAlongY - staggeredStart2)) ;
     Second_startX1 = 0.5 * ( Second_module_xy - Second_fibreDistanceAlongX * (Second_nFibresAlongX1 - 1.0) ) ;
@@ -274,7 +285,7 @@ CreateTree::Instance() -> fibresParameters -> Fill(fibre_radius,fibre_distance);
   initializeMaterials () ;
 
 
-  CreateTree::Instance() -> fibresParameters -> Fill(fibre_radius,fibre_distance);
+//  CreateTree::Instance() -> fibresParameters -> Fill(fibre_radius,fibre_distance);
 }
 
 
@@ -1472,17 +1483,17 @@ else
       fib1_FirstSectDens = ClSSMaterial ->GetDensity()*CLHEP::cm3/CLHEP::g;
       fib1_SecondSectDens = Cl4SSMaterial ->GetDensity()*CLHEP::cm3/CLHEP::g;
       absDens = AbMaterial ->GetDensity()*CLHEP::cm3/CLHEP::g;
-      fibFirstSectMoliere;
-      fibSecondSectMoliere;
-      fib1_FirstSectMoliere;
-      fib1_SecondSectMoliere;
+//      fibFirstSectMoliere;
+//      fibSecondSectMoliere;
+//      fib1_FirstSectMoliere;
+//      fib1_SecondSectMoliere;
       fibFirstSectX0 = ClMaterial ->GetRadlen()/CLHEP::cm;
       fibSecondSectX0 = Cl3Material ->GetRadlen()/CLHEP::cm;
       fib1_FirstSectX0 = ClSSMaterial ->GetRadlen()/CLHEP::cm;
       fib1_SecondSectX0 = Cl4SSMaterial ->GetRadlen()/CLHEP::cm;
       absX0 = AbMaterial->GetRadlen()/CLHEP::cm;
       abs2Dens = AbMaterial2 ->GetDensity()*CLHEP::cm3/CLHEP::g;
-      abs2Moliere;
+//      abs2Moliere;
       abs2X0 = AbMaterial2->GetRadlen()/CLHEP::cm;
       //absZ = AbMaterial -> GetZ() ;
 G4float TempZ;
@@ -1573,18 +1584,117 @@ G4cout << " Second section fibers:  " << endl;
         fib1_SecondSectMoliere = 0.0265*fib1_SecondSectX0*(fib1_SecondSectZ+1.2);
         TempZ=0;
 
+// ........ Holes ................ //
+
+G4double fibHoleFirstSectV;
+G4double fib1_HoleFirstSectV;
+G4double fibHoleSecondSectV;
+G4double fib1_HoleSecondSectV;
+
+if( !hole_isSquare )
+{
+  fibHoleFirstSectV = CLHEP::pi*pow((fibre_radius+hole_radius),2)/CLHEP::cm2*fibre_length/CLHEP::cm*(nFibresAlongX*nFibresAlongY-nFibresAlongX2*nFibresAlongY2);
+  fib1_HoleFirstSectV = CLHEP::pi*pow((fibre_radius+hole_radius),2)/CLHEP::cm2*fibre_length/CLHEP::cm*nFibresAlongX2*nFibresAlongY2;
+  fibHoleSecondSectV = CLHEP::pi*pow((Second_fibre_radius+hole_radius),2)/CLHEP::cm2*Second_fibre_length/CLHEP::cm*(Second_nFibresAlongX*Second_nFibresAlongY-Second_nFibresAlongX2*Second_nFibresAlongY2);
+  fib1_HoleSecondSectV = CLHEP::pi*pow((Second_fibre_radius+hole_radius),2)/CLHEP::cm2*Second_fibre_length/CLHEP::cm*Second_nFibresAlongX2*Second_nFibresAlongY2;
+}
+else
+{
+  fibHoleFirstSectV = pow(2*(fibre_radius+hole_radius),2)/CLHEP::cm2*fibre_length /CLHEP::cm*(nFibresAlongX*nFibresAlongY-nFibresAlongX2*nFibresAlongY2);
+  fib1_HoleFirstSectV = pow(2*(fibre_radius+hole_radius),2)/CLHEP::cm2*fibre_length /CLHEP::cm*nFibresAlongX2*nFibresAlongY2;
+  fibHoleSecondSectV = pow(2*(Second_fibre_radius+hole_radius),2)/CLHEP::cm2*Second_fibre_length/CLHEP::cm*(Second_nFibresAlongX*Second_nFibresAlongY-Second_nFibresAlongX2*Second_nFibresAlongY2);
+  fib1_HoleSecondSectV = pow(2*(Second_fibre_radius+hole_radius),2)/CLHEP::cm2*Second_fibre_length/CLHEP::cm*Second_nFibresAlongX2*Second_nFibresAlongY2;
+}
+
+G4double FirstHoleV = fibHoleFirstSectV + fib1_HoleFirstSectV;
+G4double SecondHoleV = fibHoleSecondSectV + fib1_HoleSecondSectV;
+G4double totHoleV = fibHoleFirstSectV + fib1_HoleFirstSectV + fibHoleSecondSectV + fib1_HoleSecondSectV;
+
+//G4cout << " fibHoleFirstSectV = " << fibHoleFirstSectV << " fib1_HoleFirstSectV = " << fib1_HoleFirstSectV << " fibHoleSecondSectV = " << fibHoleSecondSectV << " fib1_HoleSecondSectV = " << fib1_HoleSecondSectV << G4endl;
+
+// ........ Fibers ................ //
+
+G4double fibFirstSectV;
+G4double fib1_FirstSectV;
+G4double fibSecondSectV;
+G4double fib1_SecondSectV;
+
+if( !fibre_isSquare )
+{
+  fibFirstSectV = CLHEP::pi*pow((fibre_radius),2)/CLHEP::cm2*fibre_length/CLHEP::cm*(nFibresAlongX*nFibresAlongY-nFibresAlongX2*nFibresAlongY2);
+  fib1_FirstSectV = CLHEP::pi*pow((fibre_radius),2)/CLHEP::cm2*fibre_length/CLHEP::cm*nFibresAlongX2*nFibresAlongY2;
+  fibSecondSectV = CLHEP::pi*pow((Second_fibre_radius),2)/CLHEP::cm2*Second_fibre_length/CLHEP::cm*(Second_nFibresAlongX*Second_nFibresAlongY-Second_nFibresAlongX2*Second_nFibresAlongY2);
+  fib1_SecondSectV = CLHEP::pi*pow((Second_fibre_radius),2)/CLHEP::cm2*Second_fibre_length/CLHEP::cm*Second_nFibresAlongX2*Second_nFibresAlongY2;
+}
+else
+{
+  fibFirstSectV = pow(2*fibre_radius,2)/CLHEP::cm2*fibre_length/CLHEP::cm*(nFibresAlongX*nFibresAlongY-nFibresAlongX2*nFibresAlongY2);
+  fib1_FirstSectV = pow(2*fibre_radius,2)/CLHEP::cm2*fibre_length/CLHEP::cm*nFibresAlongX2*nFibresAlongY2;
+  fibSecondSectV = pow(2*Second_fibre_radius,2)/CLHEP::cm2*Second_fibre_length/CLHEP::cm*(Second_nFibresAlongX*Second_nFibresAlongY-Second_nFibresAlongX2*Second_nFibresAlongY2);
+  fib1_SecondSectV = pow(2*Second_fibre_radius,2)/CLHEP::cm2*Second_fibre_length/CLHEP::cm*Second_nFibresAlongX2*Second_nFibresAlongY2;
+}
+
+//G4cout << " fibers 1 =  " << nFibresAlongX*nFibresAlongY << " fibers 2 =  " << Second_nFibresAlongX*Second_nFibresAlongY << " fibHoleFirstSectV =  " << fibHoleFirstSectV << " fib1_HoleFirstSectV "<< fib1_HoleFirstSectV << " fibHoleSecondSectV =  " << fibHoleSecondSectV << " fib1_HoleSecondSectV =  " << fib1_HoleSecondSectV << " workvolume = " << workvolume /CLHEP::cm3<< G4endl;
+//G4cout << " fib1_SecondSectDens = " << fib1_SecondSectDens << " fib1_SecondSectV = " << fib1_SecondSectV << " Second_nFibresAlongX1 = " << Second_nFibresAlongX2 << " Second_nFibresAlongY1 = " << Second_nFibresAlongY2 << G4endl;
 
 
+//G4cout << " Second_fibre_radius = " <<  Second_fibre_radius << " Second_fibre_length = " << Second_fibre_length << " sqauare " << pow(2*Second_fibre_radius,2)/CLHEP::cm2 << G4endl;
+//G4double fibFirstSectMass =
 
 
+//........................ Calculations of main parameters ........................//
 
-      G4cout << " Charge of absorber =  " << absZ << " absMoliere " << absMoliere << " Charge of fiber =  " << fibFirstSectZ << " Moliere_Fib " << fibFirstSectMoliere << " X0_Fib " << fibFirstSectX0 << G4endl;
+        G4double totalWholeAbsMass = (absDens*((module_xy/CLHEP::cm)*(module_yx /CLHEP::cm)*(fibre_length /CLHEP::cm)))+(abs2Dens*((Second_module_xy /CLHEP::cm)*(Second_module_yx/ CLHEP::cm)*(Second_fibre_length /CLHEP::cm)));
+
+        //G4cout << "absDens = " << absDens << " module_xy = " << module_xy << " module_yx = " <<  module_yx << " fibre lenth = " << fibre_length << G4endl;
+        G4double fibFirstSectMass = fibFirstSectDens*(fibFirstSectV);
+        G4double fib1_FirstSectMass = (fib1_FirstSectDens*(fib1_FirstSectV));
+        G4double fibSecondSectMass = fibSecondSectDens*(fibSecondSectV);
+        G4double fib1_SecondSectMass = fib1_SecondSectDens*(fib1_SecondSectV);
+        G4double totalFirstFibresMass = fibFirstSectMass + fib1_FirstSectMass;
+        G4double totalSecondFibresMass = fibSecondSectMass+ fib1_SecondSectMass;
+        G4double totalMassOfFibres = totalFirstFibresMass+totalSecondFibresMass;
+        G4double abs1V = (module_xy /CLHEP::cm)*(module_yx /CLHEP::cm)*(fibre_length /CLHEP::cm) - FirstHoleV;
+        G4double abs2V = (Second_module_xy /CLHEP::cm)*(Second_module_yx /CLHEP::cm)*(Second_fibre_length/CLHEP::cm) - SecondHoleV;
+        G4double workvolume = abs1V+abs2V - totHoleV;
+        G4double abs1Mass = absDens*abs1V;
+        G4double abs2Mass = abs2Dens*abs2V;
+        G4double realTotalAbsMass = abs1Mass+abs2Mass;
+        G4double totalProtoMass = realTotalAbsMass+totalFirstFibresMass+totalSecondFibresMass ;
+
+        //G4cout << G4endl <<  G4endl <<  G4endl <<  " fibFirstSectMass =  " << fibFirstSectMass  <<   " fib1_FirstSectMass =  " << fib1_FirstSectMass  <<   " fibSecondSectMass =  " << fibSecondSectMass << " fib1_SecondSectMass =  " << fib1_SecondSectMass   << G4endl <<  G4endl <<  G4endl;
+        //G4cout << " calue = " << module_xy*module_yx*fibre_length /CLHEP::cm3 << " module_xy =  " << module_xy << " module_yx =  " << module_yx << " fibre_length = "  << fibre_length << G4endl;
+        //G4cout << G4endl << " abs1V =  " << abs1V << " abs2V =  " << abs2V << " workvolume  " << workvolume << " FirstHoleV = " << FirstHoleV << " SecondHoleV = " << SecondHoleV << G4endl;
+
+        G4cout << G4endl << " Whole absortber mass =  " << totalWholeAbsMass << G4endl
+        <<" Real absortber mass =  " << realTotalAbsMass  << G4endl
+        << " fibrsMass = " << totalMassOfFibres << G4endl << "Total mass of prototype = " << totalProtoMass << G4endl;
+
+
+      G4cout << " Charge of absorber =  " << absZ << " absMoliere " << absMoliere << " Charge of fiber =  " << fibFirstSectZ << " Moliere_Fib " << fibFirstSectMoliere << G4endl  << G4endl;
+
+      G4double absgcm3X0 = absX0*absDens;
+      G4double abs2gcm3X0 = abs2X0*abs2Dens;
+      G4double absTotalgcm3X0 = abs1Mass/(absX0*absDens) + abs2Mass/(absX0*abs2Dens);
+      G4double absgcm3Moliere = absMoliere*absDens;
+      G4double abs2gcm3Moliere = abs2Moliere*abs2Dens;
+      G4double absTotalgcm3Moliere = abs1Mass/(absMoliere*absDens) + abs2Mass/(absMoliere*abs2Dens);
+      G4double fibX0gcm3 = ((fibFirstSectX0*fibFirstSectDens)+(fib1_FirstSectX0*fib1_FirstSectDens)+(fibSecondSectX0*fibSecondSectDens)+(fib1_SecondSectX0*fib1_SecondSectDens));
+      G4double fibMolieregcm3 = ((fibFirstSectMoliere*fibFirstSectDens)+(fib1_FirstSectMoliere*fib1_FirstSectDens)+(fibSecondSectMoliere*fibSecondSectDens)+(fib1_SecondSectMoliere*fib1_SecondSectDens));
+      totalProtoX0 = totalProtoMass/((abs1Mass/absgcm3X0)+(abs2Mass/abs2gcm3X0)+(totalMassOfFibres/fibX0gcm3));
+      totalProtoMoliere = totalProtoMass/((abs1Mass/absgcm3Moliere)+(abs2Mass/abs2gcm3Moliere)+(totalMassOfFibres/fibMolieregcm3));
+      totalProtoDens = totalProtoMass/((module_xy /CLHEP::cm)*(module_yx /CLHEP::cm)*(fibre_length /CLHEP::cm)+(Second_module_xy /CLHEP::cm)*(Second_module_yx /CLHEP::cm)*(Second_fibre_length/CLHEP::cm));
+      totalProtoX0 = totalProtoX0/totalProtoDens;
+      totalProtoMoliere = totalProtoMoliere/totalProtoDens;
+      G4cout << " totalProtoX0 =  " << totalProtoX0 << G4endl << " totalProtoDens = " << totalProtoDens << G4endl << " totalProtoMass = " << totalProtoMass << G4endl << " totalProtoMoliere =  " << totalProtoMoliere << G4endl << G4endl;
 
       fibMatName = ClMaterial-> GetName();
       CreateTree::Instance() -> absmaterialsProp -> Fill(absDens,absMoliere,absX0);
       CreateTree::Instance() -> abs2materialsProp -> Fill(abs2Dens,abs2Moliere,abs2X0);
       CreateTree::Instance() -> fibermaterialsProp -> Fill(fibFirstSectDens,fib1_FirstSectDens,fibFirstSectX0,fib1_FirstSectX0,fibFirstSectMoliere,fib1_FirstSectMoliere);
       CreateTree::Instance() -> fiber2materialsProp -> Fill(fibSecondSectDens,fib1_SecondSectDens,fibSecondSectX0,fib1_SecondSectX0,fibSecondSectMoliere,fib1_SecondSectMoliere);
+      CreateTree::Instance() -> totalProtypeInfo -> Fill(totalProtoMass,totalProtoX0,totalProtoMoliere,totalProtoDens);
+      CreateTree::Instance() -> fibresParameters -> Fill(fibre_radius,fibre_distance);
 
   if( fibre_absLength >= 0 )
   {
