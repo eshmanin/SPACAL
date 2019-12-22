@@ -11,6 +11,8 @@
 #include "TTree.h"
 #include "TNtuple.h"
 
+#include "SteppingAction.hh"
+
 
 
 class CreateTree
@@ -143,6 +145,11 @@ float depositedEnergy_2nd_Sect_FibresCorners;
   float PrimaryParticleY[1000];
   float PrimaryParticleZ[1000];
   float PrimaryParticleE[1000];
+
+  float DepositX[1000];
+  float DepositY[1000];
+  float DepositZ[1000];
+  float DepositE[1000];
 
   // histograms
   //TH1F* h_phot_cer_lambda;

@@ -79,6 +79,7 @@ void SteppingAction::UserSteppingAction (const G4Step * theStep)
 
   G4int nStep = theTrack -> GetCurrentStepNumber();
 
+
   //-------------------
   // get local position
   G4double global_x = thePrePosition.x()/mm;
@@ -94,6 +95,11 @@ void SteppingAction::UserSteppingAction (const G4Step * theStep)
   G4double local_y = -999999.;
   G4double local_z = global_z + 0.5*module_z;
 
+//  float DepositX[nStep];
+//  float DepositY[nStep];
+// float DepositZ[nStep];
+//  float DepositE[nStep];
+
   if( thePrePVName.contains("fibre") )
   {
     std::string fibreName( thePrePVName.data() );
@@ -107,6 +113,11 @@ void SteppingAction::UserSteppingAction (const G4Step * theStep)
 
     local_x = global_x - x_c;
     local_y = global_y - y_c;
+
+    CreateTree::Instance()->DepositX[nStep-1] = thePrePosition.x()/mm;
+    CreateTree::Instance()->DepositY[nStep-1] = thePrePosition.y()/mm;
+    CreateTree::Instance()->DepositZ[nStep-1] = thePrePosition.z()/mm;
+    CreateTree::Instance()->DepositE[nStep-1] = thePrePoint->GetTotalEnergy()/GeV;
   }
 
   // *****************   ****************  ****************
@@ -161,8 +172,6 @@ void SteppingAction::UserSteppingAction (const G4Step * theStep)
       CreateTree::Instance()->PrimaryParticleE[nStep-1] = thePrePoint->GetTotalEnergy()/GeV;
     }
   }
-
-
 
   // optical photon
   if( particleType == G4OpticalPhoton::OpticalPhotonDefinition() )

@@ -159,6 +159,11 @@ this->GetTree ()->Branch ("depositedEnergyBelow_2nd_Sect",     &this->depositedE
   this->GetTree()->Branch("PrimaryParticleZ",PrimaryParticleZ,"PrimaryParticleZ[1000]/F");
   this->GetTree()->Branch("PrimaryParticleE",PrimaryParticleE,"PrimaryParticleE[1000]/F");
 
+  this->GetTree()->Branch("DepositX",DepositX,"DepositX[1000]/F");
+  this->GetTree()->Branch("DepositY",DepositY,"DepositY[1000]/F");
+  this->GetTree()->Branch("DepositZ",DepositZ,"DepositZ[1000]/F");
+  this->GetTree()->Branch("DepositE",DepositE,"DepositE[1000]/F");
+
 
   //h_phot_cer_lambda = new TH1F("h_phot_cer_lambda","",1000,250.,1250.);
   //h_phot_cer_E = new TH1F("h_phot_cer_E","",1000,0.,5.);
