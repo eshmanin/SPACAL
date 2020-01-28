@@ -300,7 +300,11 @@ void SteppingAction::UserSteppingAction (const G4Step * theStep)
       isInPostshower = true;
 
 
+G4float depX = thePrePosition.x()/mm;
+G4float depY = thePrePosition.y()/mm;
+G4float depZ = thePrePosition.z()/mm;
 
+CreateTree::Instance ()->AddPointEnergyDeposit (depX, depY, depZ, energy/GeV);
 
     if( thePrePVName.contains("fibre") )
     {

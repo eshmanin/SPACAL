@@ -31,6 +31,7 @@ public:
   TTree*             GetTree  () const { return ftree ; } ;
   TString            GetName  () const { return fname ; } ;
   void               AddEnergyDeposit (int index, float deposit, std::map<int,float>& depositAtt) ;
+  void               AddPointEnergyDeposit (float depX, float depY, float depZ, float deposit) ;
   // void               AddEnergyDepositABS (int Aindex, float depositA, std::map<int,float>) ;
  // void               AddEnergyDeposit_1st_Section (int indexion, float deposit) ;
  // void               AddEnergyDeposit_2nd_Section (int index2, float deposit) ;
@@ -46,6 +47,7 @@ public:
 
   std::vector<float> * inputMomentum ; // Px Py Pz E
   std::vector<float> * inputInitialPosition ; // x, y, z
+  std::vector<float> * depPoint ; // x,y,z of deposit point
 
   float depositedEnergyTotal ;
   float depositedEnergy_1st_Section ;
@@ -121,6 +123,10 @@ float depositedEnergy_2nd_Sect_FibresCorners;
   std::vector<std::vector<float> > * depositedEnergiesAtt ;
   // index of the fibre where the deposit happens
   std::vector<int> * depositFibres ;
+  std::vector<float> * depositFibresX ;
+  std::vector<float> * depositFibresY ;
+  std::vector<float> * depositFibresZ ;
+  std::vector<float> * depositPoint ;
   //std::vector<int> * depositAbsorber ;
 
   // std::vector<int> * depositFibres_1st_Section;

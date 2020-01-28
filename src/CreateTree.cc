@@ -2,6 +2,7 @@
 #include <algorithm>
 
 using namespace std ;
+using namespace CLHEP ;
 
 CreateTree* CreateTree::fInstance = NULL ;
 
@@ -31,6 +32,7 @@ CreateTree::CreateTree (TString name,
 
   inputMomentum = new vector<float> (4, 0.) ;
   inputInitialPosition = new vector<float> (3, 0.) ;
+  depPoint = new vector <float> (3,0.);
   depositedEnergyFibresAtt = new vector<float> ();
   depositedEnergies = new vector<float> () ;
   //  depositedEnergiesABS = new vector<float> () ;
@@ -42,6 +44,10 @@ CreateTree::CreateTree (TString name,
   // depositFibres_1st_Section = new vector<int> () ;
   // depositFibres_2nd_Section = new vector<int> () ;
   depositFibres = new vector<int> () ;
+  depositFibresX = new vector<float> () ;
+  depositFibresY = new vector<float> () ;
+  depositFibresZ = new vector<float> () ;
+  depositPoint = new vector<float> () ;
   // depositAbsorber = new vector<int> () ;
   cerenkovPhotons = new vector<int> () ;
   cerenkovFibres = new vector<int> () ;
@@ -136,9 +142,15 @@ this->GetTree ()->Branch ("depositedEnergyBelow_2nd_Sect",     &this->depositedE
   // this->GetTree ()->Branch ("depositedEnergies_1st_Section","vector<float>",&depositedEnergies_1st_Section) ;
   // this->GetTree ()->Branch ("depositedEnergies_2nd_Section","vector<float>",&depositedEnergies_2nd_Section) ;
   this->GetTree ()->Branch ("depositedEnergies","vector<float>",&depositedEnergies) ;
+  this->GetTree ()->Branch ("depPoint","vector<float>",&depPoint) ;
   // this->GetTree ()->Branch ("depositedEnergiesABS","vector<float>",&depositedEnergiesABS) ;
   this->GetTree ()->Branch ("depositedEnergiesAtt","vector<vector<float> >",&depositedEnergiesAtt) ;
   this->GetTree ()->Branch ("depositFibres","vector<int>",&depositFibres) ;
+  this->GetTree ()->Branch ("depositFibresX","vector<float>",&depositFibresX) ;
+  this->GetTree ()->Branch ("depositFibresY","vector<float>",&depositFibresY) ;
+  this->GetTree ()->Branch ("depositFibresZ","vector<float>",&depositFibresZ) ;
+  this->GetTree ()->Branch ("depositPoint","vector<float>",&depositPoint) ;
+
   //  this->GetTree ()->Branch ("depositAbsorber","vector<int>",&depositAbsorber) ;
  // this->GetTree ()->Branch ("depositFibres_1st_Section","vector<int>",&depositFibres_1st_Section) ;
  // this->GetTree ()->Branch ("depositFibres_2nd_Section","vector<int>",&depositFibres_2nd_Section) ;
@@ -212,6 +224,38 @@ CreateTree::~CreateTree ()
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 
+void
+CreateTree::AddPointEnergyDeposit (float depX, float depY, float depZ, float deposit)
+{
+  // find if it exists already
+  vector<float>::const_iterator where = find (depositFibresX->begin (),
+                                            depositFibresX->end (), depX) ;
+
+  if (depositFibresX->end () == where)
+  {
+    depositFibresX->push_back (depX) ;
+    depositFibresY->push_back (depY) ;
+    depositFibresZ->push_back (depZ) ;
+    depositedEnergies->push_back (deposit) ;
+    int i = 0;
+CreateTree::Instance ()->depPoint->at (0) = depX/mm;
+CreateTree::Instance ()->depPoint->at (1) = depY/mm;
+CreateTree::Instance ()->depPoint->at (2) = depZ/mm;
+  }
+//  else
+//  {
+//    depositedEnergies->at (where - depositFibres->begin ()) += deposit ;
+//    int i = 0;
+//    for(std::map<int,float>::const_iterator it = depositAtt.begin(); it != depositAtt.end(); ++it)
+//    {
+//      (depositedEnergiesAtt->at(i)).at (where - depositFibres->begin ()) += depositAtt[it->first] ;
+//      ++i;
+//    }
+//  }
+
+  return ;
+}
+
 
 void
 CreateTree::AddEnergyDeposit (int index, float deposit, std::map<int,float>& depositAtt)
@@ -244,6 +288,8 @@ CreateTree::AddEnergyDeposit (int index, float deposit, std::map<int,float>& dep
 
   return ;
 }
+
+
 // ********************************************************
 // void
 // CreateTree::AddEnergyDepositABS (int Aindex, float depositA, std::map<int,float>)
@@ -473,12 +519,16 @@ depositedEnergyBelow_2nd_Sect = 0.;
   for (int i = 0 ; i < 3 ; ++i)
   {
     inputInitialPosition->at (i) = 0. ;
+    depPoint->at(i) = 0. ;
   }
 
   depositedEnergies->clear () ;
   depositedEnergiesAtt->clear () ;
   depositedEnergiesAtt->resize(attLengths->size());
   depositFibres->clear () ;
+  depositFibresX->clear () ;
+  depositFibresY->clear () ;
+  depositFibresZ->clear () ;
  // depositFibres_1st_Section->clear () ;
  // depositFibres_2nd_Section->clear () ;
   scintillationPhotons->clear () ;
