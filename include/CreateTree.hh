@@ -32,6 +32,7 @@ public:
   TString            GetName  () const { return fname ; } ;
   void               AddEnergyDeposit (int index, float deposit, std::map<int,float>& depositAtt) ;
   void               AddPointEnergyDeposit (float depX, float depY, float depZ, float deposit) ;
+  void               AddFibresEnergyDeposit (float depX, float depY, float depZ, float deposit) ;
   // void               AddEnergyDepositABS (int Aindex, float depositA, std::map<int,float>) ;
  // void               AddEnergyDeposit_1st_Section (int indexion, float deposit) ;
  // void               AddEnergyDeposit_2nd_Section (int index2, float deposit) ;
@@ -117,6 +118,7 @@ float depositedEnergy_2nd_Sect_FibresCorners;
 
   // energy deposited in each fibre of a tower
   std::vector<float> * depositedEnergies ;
+  std::vector<float> * depositedEnergiesFibres ;
   //std::vector<float> * depositedEnergiesABS ;
   // std::vector<float> * depositedEnergies_1st_Section;
   // std::vector<float> * depositedEnergies_2nd_Section;
@@ -126,6 +128,9 @@ float depositedEnergy_2nd_Sect_FibresCorners;
   std::vector<float> * depositFibresX ;
   std::vector<float> * depositFibresY ;
   std::vector<float> * depositFibresZ ;
+  std::vector<float> * depositEnergyX ;
+  std::vector<float> * depositEnergyY ;
+  std::vector<float> * depositEnergyZ ;
   std::vector<float> * depositPoint ;
   //std::vector<int> * depositAbsorber ;
 

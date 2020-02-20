@@ -518,7 +518,7 @@ G4Material* MyMaterials::CopperTungstenAlloy(const G4double& WFrac)
   return mat;
 }
 
-G4Material* MyMaterials::LeadTungstenAlloy(const G4double& LWFrac)
+G4Material* MyMaterials::LeadTungstenAlloy(const G4double& WFrac)
 {
  G4double a, z, density;
   G4NistManager* man = G4NistManager::Instance();
@@ -527,10 +527,10 @@ G4Material* MyMaterials::LeadTungstenAlloy(const G4double& LWFrac)
 
   G4double rho_Pb = 11.34;
   G4double rho_W = 19.25;
-  G4double rho = (1.-LWFrac)*rho_Pb + LWFrac*rho_W;
+  G4double rho = (1.-WFrac)*rho_Pb + WFrac*rho_W;
   G4Material* mat = new G4Material("LeadTungstenAlloy",density=rho*g/cm3,2);
-  mat->AddElement(Pb,1.-LWFrac);
-  mat->AddElement(W,LWFrac);
+  mat->AddElement(Pb,1.-WFrac);
+  mat->AddElement(W,WFrac);
 
   return mat;
 

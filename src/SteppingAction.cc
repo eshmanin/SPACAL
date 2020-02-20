@@ -18,15 +18,18 @@ int to_int (string name)
 
 
 SteppingAction::SteppingAction (DetectorConstruction* detectorConstruction,
-                                const G4int& scint, const G4int& cher) :
+                                const G4int& scint, const G4int& cher,const G4int& protoType, const G4int& write_all_energy_points, const G4int& write_fibres_energy_points) :
   fDetectorConstruction(detectorConstruction),
   propagateScintillation(scint),
-  propagateCerenkov(cher)
+  propagateCerenkov(cher),
+  protoType(protoType),
+  write_all_energy_points(write_all_energy_points),
+  write_fibres_energy_points(write_fibres_energy_points)
 {}
 
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
-
+/*
 SteppingAction::SteppingAction (const string& configFileName)
 {
 
@@ -35,7 +38,10 @@ SteppingAction::SteppingAction (const string& configFileName)
 config.readInto (module_yx, "module_yx") ;
  config.readInto (Second_fibre_length, "Second_fibre_length") ;
 config.readInto (protoType, "protoType") ;
+config.readInto (write_all_energy_points, "write_all_energy_points") ;
+config.readInto (write_fibres_energy_points, "write_fibres_energy_points") ;
 }
+*/
 SteppingAction::~SteppingAction ()
 {}
 
@@ -304,16 +310,19 @@ G4float depX = thePrePosition.x()/mm;
 G4float depY = thePrePosition.y()/mm;
 G4float depZ = thePrePosition.z()/mm;
 
+if (write_all_energy_points == 1) {
 CreateTree::Instance ()->AddPointEnergyDeposit (depX, depY, depZ, energy/GeV);
-
+}
     if( thePrePVName.contains("fibre") )
     {
       if( !isInPostshower )
         CreateTree::Instance ()->depositedEnergyFibres += energy/GeV;
-
-      else
+        if (write_fibres_energy_points == 1) {
+        CreateTree::Instance ()->AddFibresEnergyDeposit (depX, depY, depZ, energy/GeV);
+      }
+/*      else
         CreateTree::Instance ()->depositedEnergyFibres_post += energy/GeV;
-
+*/
       std::map<int,float> depAtt;
       for(unsigned int it = 0; it < CreateTree::Instance()->attLengths->size(); ++it)
       {

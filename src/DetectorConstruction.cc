@@ -1283,7 +1283,7 @@ void DetectorConstruction::initializeMaterials ()
   else if ( abs_material == 4 ) AbMaterial = MyMaterials::Iron () ;
   else if ( abs_material == 5 ) AbMaterial = MyMaterials::Aluminium () ;
   else if ( abs_material == 6 ) AbMaterial = MyMaterials::CopperTungstenAlloy(W_fraction) ;
-  else if ( abs_material == 7 ) AbMaterial = MyMaterials::LeadTungstenAlloy(LW_fraction) ;
+  else if ( abs_material == 7 ) AbMaterial = MyMaterials::LeadTungstenAlloy(W_fraction) ;
   else
   {
     G4cerr << "<DetectorConstructioninitializeMaterials>: Invalid absorber material specifier " << abs_material << G4endl ;
@@ -1301,7 +1301,7 @@ void DetectorConstruction::initializeMaterials ()
   else if ( Second_abs_material == 4 ) AbMaterial2 = MyMaterials::Iron () ;
   else if ( Second_abs_material == 5 ) AbMaterial2 = MyMaterials::Aluminium () ;
   else if ( Second_abs_material == 6 ) AbMaterial2 = MyMaterials::CopperTungstenAlloy(Second_W_fraction) ;
-  else if ( Second_abs_material == 7 ) AbMaterial2 = MyMaterials::LeadTungstenAlloy(Second_LW_fraction) ;
+  else if ( Second_abs_material == 7 ) AbMaterial2 = MyMaterials::LeadTungstenAlloy(Second_W_fraction) ;
   else
   {
     G4cerr << "<DetectorConstructioninitializeMaterials>: Invalid absorber material specifier " << Second_abs_material << G4endl ;

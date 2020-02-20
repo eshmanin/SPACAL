@@ -149,6 +149,10 @@ this->GetTree ()->Branch ("depositedEnergyBelow_2nd_Sect",     &this->depositedE
   this->GetTree ()->Branch ("depositFibresX","vector<float>",&depositFibresX) ;
   this->GetTree ()->Branch ("depositFibresY","vector<float>",&depositFibresY) ;
   this->GetTree ()->Branch ("depositFibresZ","vector<float>",&depositFibresZ) ;
+  this->GetTree ()->Branch ("depositedEnergiesFibres","vector<float>",&depositedEnergiesFibres) ;
+  this->GetTree ()->Branch ("depositEnergyX","vector<float>",&depositEnergyX) ;
+  this->GetTree ()->Branch ("depositEnergyY","vector<float>",&depositEnergyY) ;
+  this->GetTree ()->Branch ("depositEnergyZ","vector<float>",&depositEnergyZ) ;
   this->GetTree ()->Branch ("depositPoint","vector<float>",&depositPoint) ;
 
   //  this->GetTree ()->Branch ("depositAbsorber","vector<int>",&depositAbsorber) ;
@@ -223,9 +227,8 @@ CreateTree::~CreateTree ()
 
 
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
-
 void
-CreateTree::AddPointEnergyDeposit (float depX, float depY, float depZ, float deposit)
+CreateTree::AddFibresEnergyDeposit (float depX, float depY, float depZ, float deposit)
 {
   // find if it exists already
   vector<float>::const_iterator where = find (depositFibresX->begin (),
@@ -236,12 +239,45 @@ CreateTree::AddPointEnergyDeposit (float depX, float depY, float depZ, float dep
     depositFibresX->push_back (depX) ;
     depositFibresY->push_back (depY) ;
     depositFibresZ->push_back (depZ) ;
+    depositedEnergiesFibres->push_back (deposit) ;
+
+    return ;
+}
+
+}
+
+void
+CreateTree::AddPointEnergyDeposit (float depX, float depY, float depZ, float deposit)
+{
+  // find if it exists already
+  vector<float>::const_iterator where = find (depositEnergyX->begin (),
+                                            depositEnergyX->end (), depX) ;
+
+  if (depositEnergyX->end () == where)
+  {
+    depositEnergyX->push_back (depX) ;
+    depositEnergyY->push_back (depY) ;
+    depositEnergyZ->push_back (depZ) ;
     depositedEnergies->push_back (deposit) ;
     int i = 0;
-CreateTree::Instance ()->depPoint->at (0) = depX/mm;
-CreateTree::Instance ()->depPoint->at (1) = depY/mm;
-CreateTree::Instance ()->depPoint->at (2) = depZ/mm;
+CreateTree::Instance ()->depPoint->at (0) = depX/CLHEP::mm;
+CreateTree::Instance ()->depPoint->at (1) = depY/CLHEP::mm;
+CreateTree::Instance ()->depPoint->at (2) = depZ/CLHEP::mm;
   }
+
+/*
+if () {
+  if (depositEnergyX->end () == where)
+  {
+    depositEnergyX->push_back (depX) ;
+    depositEnergyY->push_back (depY) ;
+    depositEnergyZ->push_back (depZ) ;
+    //depositedEnergies->push_back (deposit) ;
+  }
+}
+*/
+
+
 //  else
 //  {
 //    depositedEnergies->at (where - depositFibres->begin ()) += deposit ;
