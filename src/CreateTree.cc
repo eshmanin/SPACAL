@@ -32,7 +32,7 @@ CreateTree::CreateTree (TString name,
 
   inputMomentum = new vector<float> (4, 0.) ;
   inputInitialPosition = new vector<float> (3, 0.) ;
-  depPoint = new vector <float> (3,0.);
+  //depPoint = new vector <float> (3,0.);
   depositedEnergyFibresAtt = new vector<float> ();
   depositedEnergies = new vector<float> () ;
   //  depositedEnergiesABS = new vector<float> () ;
@@ -142,7 +142,7 @@ this->GetTree ()->Branch ("depositedEnergyBelow_2nd_Sect",     &this->depositedE
   // this->GetTree ()->Branch ("depositedEnergies_1st_Section","vector<float>",&depositedEnergies_1st_Section) ;
   // this->GetTree ()->Branch ("depositedEnergies_2nd_Section","vector<float>",&depositedEnergies_2nd_Section) ;
   this->GetTree ()->Branch ("depositedEnergies","vector<float>",&depositedEnergies) ;
-  this->GetTree ()->Branch ("depPoint","vector<float>",&depPoint) ;
+  //this->GetTree ()->Branch ("depPoint","vector<float>",&depPoint) ;
   // this->GetTree ()->Branch ("depositedEnergiesABS","vector<float>",&depositedEnergiesABS) ;
   this->GetTree ()->Branch ("depositedEnergiesAtt","vector<vector<float> >",&depositedEnergiesAtt) ;
   this->GetTree ()->Branch ("depositFibres","vector<int>",&depositFibres) ;
@@ -175,10 +175,10 @@ this->GetTree ()->Branch ("depositedEnergyBelow_2nd_Sect",     &this->depositedE
   this->GetTree()->Branch("PrimaryParticleZ",PrimaryParticleZ,"PrimaryParticleZ[1000]/F");
   this->GetTree()->Branch("PrimaryParticleE",PrimaryParticleE,"PrimaryParticleE[1000]/F");
 
-  this->GetTree()->Branch("DepositX",DepositX,"DepositX[1000]/F");
-  this->GetTree()->Branch("DepositY",DepositY,"DepositY[1000]/F");
-  this->GetTree()->Branch("DepositZ",DepositZ,"DepositZ[1000]/F");
-  this->GetTree()->Branch("DepositE",DepositE,"DepositE[1000]/F");
+//  this->GetTree()->Branch("DepositX",DepositX,"DepositX[1000]/F");
+//  this->GetTree()->Branch("DepositY",DepositY,"DepositY[1000]/F");
+//  this->GetTree()->Branch("DepositZ",DepositZ,"DepositZ[1000]/F");
+//  this->GetTree()->Branch("DepositE",DepositE,"DepositE[1000]/F");
 
 
   //h_phot_cer_lambda = new TH1F("h_phot_cer_lambda","",1000,250.,1250.);
@@ -260,9 +260,9 @@ CreateTree::AddPointEnergyDeposit (float depX, float depY, float depZ, float dep
     depositEnergyZ->push_back (depZ) ;
     depositedEnergies->push_back (deposit) ;
     int i = 0;
-CreateTree::Instance ()->depPoint->at (0) = depX/CLHEP::mm;
-CreateTree::Instance ()->depPoint->at (1) = depY/CLHEP::mm;
-CreateTree::Instance ()->depPoint->at (2) = depZ/CLHEP::mm;
+//CreateTree::Instance ()->depPoint->at (0) = depX/CLHEP::mm;
+//CreateTree::Instance ()->depPoint->at (1) = depY/CLHEP::mm;
+//CreateTree::Instance ()->depPoint->at (2) = depZ/CLHEP::mm;
   }
 
 /*
@@ -552,11 +552,12 @@ depositedEnergyBelow_2nd_Sect = 0.;
   {
     inputMomentum->at (i) = 0. ;
   }
-  for (int i = 0 ; i < 3 ; ++i)
+  /* for (int i = 0 ; i < 3 ; ++i)
   {
     inputInitialPosition->at (i) = 0. ;
     depPoint->at(i) = 0. ;
   }
+  */
 
   depositedEnergies->clear () ;
   depositedEnergiesAtt->clear () ;

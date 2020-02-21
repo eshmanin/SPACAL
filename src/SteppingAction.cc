@@ -18,13 +18,14 @@ int to_int (string name)
 
 
 SteppingAction::SteppingAction (DetectorConstruction* detectorConstruction,
-                                const G4int& scint, const G4int& cher,const G4int& protoType, const G4int& write_all_energy_points, const G4int& write_fibres_energy_points) :
+                                const G4int& scint, const G4int& cher,const G4int& protoType, const G4int& write_all_energy_points, const G4int& write_fibres_energy_points, const G4int& write_energy_in_cells) :
   fDetectorConstruction(detectorConstruction),
   propagateScintillation(scint),
   propagateCerenkov(cher),
   protoType(protoType),
   write_all_energy_points(write_all_energy_points),
-  write_fibres_energy_points(write_fibres_energy_points)
+  write_fibres_energy_points(write_fibres_energy_points),
+  write_energy_in_cells(write_energy_in_cells)
 {}
 
 
@@ -103,7 +104,7 @@ void SteppingAction::UserSteppingAction (const G4Step * theStep)
 
 //  float DepositX[nStep];
 //  float DepositY[nStep];
-// float DepositZ[nStep];
+//  float DepositZ[nStep];
 //  float DepositE[nStep];
 
   if( thePrePVName.contains("fibre") )
@@ -120,10 +121,10 @@ void SteppingAction::UserSteppingAction (const G4Step * theStep)
     local_x = global_x - x_c;
     local_y = global_y - y_c;
 
-    CreateTree::Instance()->DepositX[nStep-1] = thePrePosition.x()/mm;
-    CreateTree::Instance()->DepositY[nStep-1] = thePrePosition.y()/mm;
-    CreateTree::Instance()->DepositZ[nStep-1] = thePrePosition.z()/mm;
-    CreateTree::Instance()->DepositE[nStep-1] = thePrePoint->GetTotalEnergy()/GeV;
+  //  CreateTree::Instance()->DepositX[nStep-1] = thePrePosition.x()/mm;
+  //  CreateTree::Instance()->DepositY[nStep-1] = thePrePosition.y()/mm;
+  //  CreateTree::Instance()->DepositZ[nStep-1] = thePrePosition.z()/mm;
+//    CreateTree::Instance()->DepositE[nStep-1] = thePrePoint->GetTotalEnergy()/GeV;
   }
 
   // *****************   ****************  ****************
@@ -372,6 +373,9 @@ CreateTree::Instance ()->AddPointEnergyDeposit (depX, depY, depZ, energy/GeV);
 
     // }
 
+if (write_energy_in_cells == 1)
+{
+
 if (protoType == 1 ){
   // *********************************
   if( global_x>=-1.5*cellsize && global_x <= -0.5*cellsize && global_y >= -1.5*cellsize -5 && global_y <= -0.5*cellsize && global_z <0 && global_z < devider )
@@ -590,6 +594,7 @@ else{
     {      if( !isInPostshower )
       CreateTree::Instance ()->depositedEnergyCell15 += energy/GeV;
     }
+}
 }
 
   //   // ***********************************************************

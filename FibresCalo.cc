@@ -156,6 +156,7 @@ int main(int argc,char** argv)
   G4int propagateCerenkov     = config.read<int> ("propagateCerenkov");
   G4int write_all_energy_points  = config.read<int> ("write_all_energy_points");
   G4int write_fibres_energy_points = config.read<int> ("write_fibres_energy_points");
+  G4int write_energy_in_cells = config.read<int> ("write_energy_in_cells");
   G4int protoType = config.read<int> ("protoType");
 
   // User Verbose output class
@@ -239,7 +240,7 @@ int main(int argc,char** argv)
   G4cout << ">>> Define TrackingAction::end <<<" << G4endl;
 
   G4cout << ">>> Define SteppingAction::begin <<<" << G4endl;
-  SteppingAction* stepping_action = new SteppingAction(detector,propagateScintillation,propagateCerenkov,protoType,write_all_energy_points,write_fibres_energy_points);
+  SteppingAction* stepping_action = new SteppingAction(detector,propagateScintillation,propagateCerenkov,protoType,write_all_energy_points,write_fibres_energy_points, write_energy_in_cells);
   runManager->SetUserAction(stepping_action);
   G4cout << ">>> Define SteppingAction::end <<<" << G4endl;
 

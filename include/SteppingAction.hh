@@ -46,7 +46,7 @@ public:
   SteppingAction  (const string& configFileName) ;
 
   SteppingAction(DetectorConstruction* detectorConstruction,
-                 const G4int& scint, const G4int& cher, const G4int& protoType, const G4int& write_all_energy_points, const G4int& write_fibres_energy_points );
+                 const G4int& scint, const G4int& cher, const G4int& protoType, const G4int& write_all_energy_points, const G4int& write_fibres_energy_points, const G4int& write_energy_in_cells );
 
 
   ~SteppingAction();
@@ -68,6 +68,7 @@ private:
     G4double devider;
     G4int write_all_energy_points;
     G4int write_fibres_energy_points;
+    G4int write_energy_in_cells;
 };
 
 #endif

@@ -48,7 +48,7 @@ public:
 
   std::vector<float> * inputMomentum ; // Px Py Pz E
   std::vector<float> * inputInitialPosition ; // x, y, z
-  std::vector<float> * depPoint ; // x,y,z of deposit point
+  //std::vector<float> * depPoint ; // x,y,z of deposit point
 
   float depositedEnergyTotal ;
   float depositedEnergy_1st_Section ;
