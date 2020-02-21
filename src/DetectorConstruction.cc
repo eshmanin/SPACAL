@@ -1496,10 +1496,9 @@ else
 //      abs2Moliere;
       abs2X0 = AbMaterial2->GetRadlen()/CLHEP::cm;
       //absZ = AbMaterial -> GetZ() ;
-G4float TempZ;
-G4int nofElements = AbMaterial->GetNumberOfElements();
-G4cout << " Fisrt section absorber:  " << endl;
-        for (G4int i=0; i<nofElements; i++) {
+    G4float TempZ;
+    G4cout << " Fisrt section absorber:  " << endl;
+ for (G4int i=0; i<AbMaterial->GetNumberOfElements(); i++) {
           G4double zOfElement = AbMaterial->GetElement(i)->GetZ();
           G4double massFraction = AbMaterial->GetFractionVector()[i];
            cout << AbMaterial->GetElement(i)->GetName()
@@ -1508,9 +1507,8 @@ G4cout << " Fisrt section absorber:  " << endl;
         }
       absMoliere = 0.0265*absX0*(absZ+1.2);
 
-      G4int noAb2fElements = AbMaterial2->GetNumberOfElements();
       G4cout << " Second section absorber:  " << endl;
-              for (G4int i=0; i<nofElements; i++) {
+      for (G4int i=0; i<AbMaterial2->GetNumberOfElements(); i++) {
                 G4double zOfElement = AbMaterial2->GetElement(i)->GetZ();
                 G4double massFraction = AbMaterial2->GetFractionVector()[i];
                  cout << AbMaterial2->GetElement(i)->GetName()
